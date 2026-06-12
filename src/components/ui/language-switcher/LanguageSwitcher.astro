@@ -1,0 +1,56 @@
+---
+import { getLangFromUrl, languages } from '../../../i18n/ui';
+
+const lang = getLangFromUrl(Astro.url);
+const currentPath = Astro.url.pathname.replace(`/${lang}`, '');
+---
+
+<div class="lang-switcher">
+  {
+    Object.entries(languages).map(([code, label]) => (
+      <a
+        href={`/${code}${currentPath}`}
+        class={`lang-btn ${lang === code ? 'active' : ''}`}
+        aria-label={`Change language to ${label}`}
+      >
+        {code.toUpperCase()}
+      </a>
+    ))
+  }
+</div>
+
+<style>
+  .lang-switcher {
+    display: flex;
+    gap: 0.25rem;
+    align-items: center;
+    background-color: var(--bg-tertiary);
+    padding: 0.2rem;
+    border-radius: 20px;
+    margin-left: 0.5rem;
+  }
+
+  .lang-btn {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.25rem 0.5rem;
+    border-radius: 16px;
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
+  }
+
+  .lang-btn:hover {
+    color: var(--text-primary);
+  }
+
+  .lang-btn.active {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+
+  :global(.dark) .lang-btn.active {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+</style>
+

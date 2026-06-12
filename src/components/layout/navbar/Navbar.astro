@@ -1,0 +1,83 @@
+---
+import LanguageSwitcher from '../../ui/language-switcher/LanguageSwitcher.astro';
+import ThemeToggle from '../../ui/theme-toggle/ThemeToggle.astro';
+import { getLangFromUrl, useTranslations } from '../../../i18n/ui';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+<nav class="navbar">
+	<ul class="nav-list">
+		<li><a href="#profile" class="nav-link">{t('nav.profile')}</a></li>
+		<li><a href="#stack" class="nav-link">{t('nav.stack')}</a></li>
+		<li><a href="#projects" class="nav-link">{t('nav.projects')}</a></li>
+	</ul>
+	<div class="nav-actions">
+		<LanguageSwitcher />
+		<ThemeToggle />
+	</div>
+</nav>
+
+<style>
+	.navbar {
+		position: fixed;
+		top: 1.5rem;
+		left: 50%;
+		transform: translateX(-50%);
+		z-index: 1000;
+		background-color: rgba(255, 255, 255, 0.7);
+		backdrop-filter: blur(12px);
+		-webkit-backdrop-filter: blur(12px);
+		border: 1px solid var(--border-light);
+		border-radius: 50px;
+		padding: 0.5rem 1rem;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	:global(.dark) .navbar {
+		background-color: rgba(22, 22, 22, 0.7);
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+	}
+
+	.nav-list {
+		display: flex;
+		gap: 0.5rem;
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.nav-link {
+		font-size: 0.85rem;
+		font-weight: 500;
+		color: var(--text-secondary);
+		padding: 0.4rem 0.8rem;
+		border-radius: 20px;
+		transition: all 0.2s ease;
+	}
+
+	.nav-link:hover {
+		color: var(--text-primary);
+		background-color: var(--bg-tertiary);
+	}
+
+	@media (min-width: 640px) {
+		.nav-list {
+			gap: 1rem;
+		}
+		.nav-link {
+			font-size: 0.95rem;
+			padding: 0.5rem 1rem;
+		}
+	}
+
+	.nav-actions {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+</style>
+

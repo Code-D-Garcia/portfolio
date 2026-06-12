@@ -1,0 +1,25 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/layout/navbar/Navbar.astro';
+import Profile from '../../components/sections/profile/Profile.astro';
+import Stack from '../../components/sections/stack/Stack.astro';
+import Projects from '../../components/sections/projects/Projects.astro';
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'es' } },
+    { params: { lang: 'en' } },
+  ];
+}
+
+const { lang } = Astro.params;
+---
+
+<Layout>
+	<Navbar />
+	<main class="container">
+		<Profile />
+		<Stack />
+		<Projects />
+	</main>
+</Layout>

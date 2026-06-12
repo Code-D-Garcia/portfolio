@@ -1,0 +1,110 @@
+---
+import { getLangFromUrl, useTranslations } from '../../../i18n/ui';
+import { stackData } from '../../../data/stack';
+import stackTitleSvg from "../../../assets/stack.svg";
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<section id="stack" class="stack-section">
+	<h2 class="section-title">{t('stack.title')}</h2>
+	<div class="terminal-title">
+		<img src={stackTitleSvg.src} alt="Terminal: ls stack/" class="title-svg" />
+	</div>
+	<div class="stack-grid">
+		{
+			stackData.map((tech) => (
+				<div class="tech-item" title={tech.name}>
+					<img
+						src={tech.icon}
+						alt={tech.name}
+						loading="lazy"
+						class="tech-icon"
+						style={
+							tech.iconWidth
+								? `width: ${tech.iconWidth}; height: auto; max-height: 24px;`
+								: ""
+						}
+					/>
+					{!tech.hideName && (
+						<span class="tech-name">{tech.name}</span>
+					)}
+				</div>
+			))
+		}
+	</div>
+</section>
+
+<style>
+	.stack-section {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.stack-grid {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+	}
+
+	.tech-item {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.6rem;
+		padding: 0.4rem 0.8rem;
+		background-color: var(--bg-tertiary);
+		border: 1px solid var(--border-light);
+		border-radius: 6px;
+		transition: all 0.2s ease;
+		cursor: default;
+	}
+
+	.tech-item:hover {
+		color: var(--text-primary);
+		background-color: var(--bg-primary);
+		border-color: var(--border-dark);
+		transform: translateY(-2px);
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+	}
+
+	:global(.dark) .tech-item:hover {
+		box-shadow: 0 2px 8px rgba(255, 255, 255, 0.03);
+	}
+
+	.tech-icon {
+		width: 16px;
+		height: 16px;
+		object-fit: contain;
+		filter: grayscale(0%) opacity(1);
+		transition: all 0.2s ease;
+	}
+
+	.tech-item:hover .tech-icon {
+		filter: grayscale(100%) opacity(0.7);
+	}
+
+	.tech-name {
+		font-size: 0.85rem;
+		font-weight: 500;
+		color: var(--text-secondary);
+		transition: color 0.2s ease;
+	}
+
+	.tech-item:hover .tech-name {
+		color: var(--text-primary);
+	}
+
+
+	.terminal-title {
+		margin-bottom: 2rem;
+		display: flex;
+		align-items: center;
+	}
+	.title-svg {
+		max-width: 100%;
+		height: auto;
+		width: 320px;
+	}
+</style>
+

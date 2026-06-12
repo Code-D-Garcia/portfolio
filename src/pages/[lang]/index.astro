@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/layout/navbar/Navbar.astro';
 import Profile from '../../components/sections/profile/Profile.astro';
 import Stack from '../../components/sections/stack/Stack.astro';
+import Experience from '../../components/sections/experience/Experience.astro';
 import Projects from '../../components/sections/projects/Projects.astro';
 
 export function getStaticPaths() {
@@ -20,6 +21,7 @@ const { lang } = Astro.params;
 	<main class="container">
 		<Profile />
 		<Stack />
+		<Experience />
 		<Projects />
 	</main>
 </Layout>

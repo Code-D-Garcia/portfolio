@@ -1,0 +1,158 @@
+---
+import { getLangFromUrl, useTranslations, type UIKeys } from '../../../i18n/ui';
+import { experienceData } from '../../../data/experience';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+<section id="experience" class="experience-section">
+	<h2 class="section-title">{t('experience.title')}</h2>
+	
+	<div class="experience-timeline">
+		{experienceData.map(exp => (
+			<article class="experience-item">
+				<div class="timeline-dot"></div>
+				<div class="experience-content">
+					<div class="experience-header">
+						<h3 class="experience-role">{t(`experience.${exp.id}.role` as UIKeys)}</h3>
+						<span class="experience-date">{t(`experience.${exp.id}.date` as UIKeys)}</span>
+					</div>
+					<h4 class="experience-company">{t(`experience.${exp.id}.company` as UIKeys)}</h4>
+					<p class="experience-description">{t(`experience.${exp.id}.desc` as UIKeys)}</p>
+
+					{exp.stack && exp.stack.length > 0 && (
+						<div class="experience-stack">
+							{exp.stack.map(tech => (
+								<span class="stack-tag">{tech}</span>
+							))}
+						</div>
+					)}
+				</div>
+			</article>
+		))}
+	</div>
+</section>
+
+<style>
+	.experience-section {
+		display: flex;
+		flex-direction: column;
+		margin-top: 4rem; /* match previous sections spacing */
+	}
+
+	.experience-timeline {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+		position: relative;
+		padding-left: 1.5rem;
+	}
+
+	/* The vertical line */
+	.experience-timeline::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0.35rem; /* center the line with the dot */
+		width: 2px;
+		background-color: var(--border-light);
+	}
+
+	.experience-item {
+		display: flex;
+		flex-direction: column;
+		position: relative;
+	}
+
+	.timeline-dot {
+		position: absolute;
+		left: -1.5rem; /* offset to align with the vertical line */
+		top: 0.35rem; /* align with first line of text */
+		width: 0.8rem;
+		height: 0.8rem;
+		border-radius: 50%;
+		background-color: var(--text-primary);
+		border: 2px solid var(--bg-primary);
+		box-shadow: 0 0 0 2px var(--border-light);
+		z-index: 1;
+	}
+
+	.experience-content {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.experience-header {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+	}
+
+	@media (min-width: 480px) {
+		.experience-header {
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
+		}
+	}
+
+	.experience-role {
+		font-size: 1.125rem;
+		font-weight: 600;
+		color: var(--text-primary);
+		line-height: 1.4;
+	}
+
+	.experience-date {
+		font-size: 0.85rem;
+		color: #fdff8e;
+		font-weight: bolder;
+	}
+
+	.experience-company {
+		font-size: 0.95rem;
+		font-weight: 500;
+		color: var(--text-secondary);
+		margin-bottom: 0.25rem;
+	}
+
+	.experience-description {
+		color: var(--text-secondary);
+		font-size: 0.95rem;
+		line-height: 1.6;
+		margin-bottom: 0.5rem;
+	}
+
+	.experience-stack {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		margin-top: 0.5rem;
+	}
+
+	.stack-tag {
+		font-size: 0.75rem;
+		font-weight: 500;
+		color: var(--text-secondary);
+		padding: 0.3rem 0.75rem;
+		border-radius: 6px;
+		background-color: var(--bg-tertiary);
+		border: 1px solid var(--border-light);
+		transition: all 0.2s ease;
+		cursor: default;
+	}
+
+	.stack-tag:hover {
+		color: var(--text-primary);
+		background-color: var(--bg-primary);
+		border-color: var(--border-dark);
+		transform: translateY(-2px);
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+	}
+
+	:global(.dark) .stack-tag:hover {
+		box-shadow: 0 2px 8px rgba(255, 255, 255, 0.03);
+	}
+</style>

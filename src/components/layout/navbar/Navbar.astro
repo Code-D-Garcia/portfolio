@@ -21,7 +21,7 @@ const t = useTranslations(lang);
 <style>
 	.navbar {
 		position: fixed;
-		top: 1.5rem;
+		top: 1.25rem;
 		left: 50%;
 		transform: translateX(-50%);
 		z-index: 1000;
@@ -30,11 +30,13 @@ const t = useTranslations(lang);
 		-webkit-backdrop-filter: blur(12px);
 		border: 1px solid var(--border-light);
 		border-radius: 50px;
-		padding: 0.5rem 1rem;
+		padding: 0.4rem 0.5rem;
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
+		width: 95%;
+		max-width: 420px;
 	}
 
 	:global(.dark) .navbar {
@@ -44,17 +46,17 @@ const t = useTranslations(lang);
 
 	.nav-list {
 		display: flex;
-		gap: 0.5rem;
+		gap: 0.25rem;
 		list-style: none;
 		margin: 0;
 		padding: 0;
 	}
 
 	.nav-link {
-		font-size: 0.85rem;
+		font-size: 0.75rem;
 		font-weight: 500;
 		color: var(--text-secondary);
-		padding: 0.4rem 0.8rem;
+		padding: 0.35rem 0.5rem;
 		border-radius: 20px;
 		transition: all 0.2s ease;
 	}
@@ -64,7 +66,19 @@ const t = useTranslations(lang);
 		background-color: var(--bg-tertiary);
 	}
 
+	.nav-actions {
+		display: flex;
+		align-items: center;
+		gap: 0.25rem;
+	}
+
 	@media (min-width: 640px) {
+		.navbar {
+			top: 1.5rem;
+			padding: 0.5rem 1rem;
+			width: max-content;
+			max-width: calc(100vw - 2rem);
+		}
 		.nav-list {
 			gap: 1rem;
 		}
@@ -72,12 +86,9 @@ const t = useTranslations(lang);
 			font-size: 0.95rem;
 			padding: 0.5rem 1rem;
 		}
-	}
-
-	.nav-actions {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
+		.nav-actions {
+			gap: 0.5rem;
+		}
 	}
 </style>
 

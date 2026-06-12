@@ -12,6 +12,7 @@ const currentPath = Astro.url.pathname.replace(`/${lang}`, '');
         href={`/${code}${currentPath}`}
         class={`lang-btn ${lang === code ? 'active' : ''}`}
         aria-label={`Change language to ${label}`}
+        onclick="sessionStorage.setItem('scrollPosition', window.scrollY.toString())"
       >
         {code.toUpperCase()}
       </a>

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="500" height="40">
+  <style>
+    .terminal {
+      font-family: "Fira Code", "JetBrains Mono", monospace;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .user { fill: #50fa7b; }
+    .path { fill: #bd93f9; }
+    .command { fill: #8be9fd; }
+    .symbol { fill: #f8f8f2; }   
+
+    .cursor {
+      fill: #f8f8f2;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      50% { opacity: 0; }
+    }
+  </style>
+
+  <text x="10" y="28" class="terminal">
+    <tspan class="symbol">&gt; </tspan>
+    <tspan class="user">code-d-garcia@root</tspan>
+    <tspan class="path">:~$ </tspan>
+    <tspan class="command">ls stack/</tspan>
+  </text>
+</svg>

@@ -3,12 +3,13 @@
     .terminal {
       font-family: "Fira Code", "JetBrains Mono", monospace;
       font-size: 20px;
+      font-weight: bold;
     }
 
-    .user { fill: #50fa7b; }      /* Verde */
-    .path { fill: #bd93f9; }      /* Morado */
-    .command { fill: #8be9fd; }   /* Cyan */
-    .symbol { fill: #f8f8f2; }    /* Blanco */
+    .user { fill: #5f00dc; }
+    .path { fill: #c50303; }
+    .command { fill: #000000; } 
+    .symbol { fill: #000000; }    
 
     .cursor {
       fill: #f8f8f2;

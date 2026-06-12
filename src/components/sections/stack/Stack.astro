@@ -1,7 +1,8 @@
 ---
 import { getLangFromUrl, useTranslations } from '../../../i18n/ui';
 import { stackData } from '../../../data/stack';
-import stackTitleSvg from "../../../assets/stack.svg";
+import stackDarkSvg from "../../../assets/stack-dark.svg";
+import stackLightSvg from "../../../assets/stack-light.svg";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -10,7 +11,8 @@ const t = useTranslations(lang);
 <section id="stack" class="stack-section">
 	<h2 class="section-title">{t('stack.title')}</h2>
 	<div class="terminal-title">
-		<img src={stackTitleSvg.src} alt="Terminal: ls stack/" class="title-svg" />
+		<img src={stackDarkSvg.src} alt="Terminal: ls stack/" class="title-svg title-svg-dark" />
+		<img src={stackLightSvg.src} alt="Terminal: ls stack/" class="title-svg title-svg-light" />
 	</div>
 	<div class="stack-grid">
 		{
@@ -105,6 +107,18 @@ const t = useTranslations(lang);
 		max-width: 100%;
 		height: auto;
 		width: 320px;
+	}
+	.title-svg-dark {
+		display: none;
+	}
+	.title-svg-light {
+		display: block;
+	}
+	:global(.dark) .title-svg-dark {
+		display: block;
+	}
+	:global(.dark) .title-svg-light {
+		display: none;
 	}
 </style>
 

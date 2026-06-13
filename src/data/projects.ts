@@ -6,6 +6,7 @@ export const projectsData = [
 		stack: ["Spring Boot", "PostgreSQL", "Spring Security", "Hibernate/Jpa", "Auth/JWT", "React"],
 		link: "#",
 		repo: "https://github.com/Code-D-Garcia/personal-expenses-backend",
-		image: chiroWeb
+		image: chiroWeb,
+		appLink: "#"
 	}
 ];

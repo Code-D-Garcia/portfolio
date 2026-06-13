@@ -253,17 +253,17 @@ const t = useTranslations(lang);
 	}
 </style>
 
-<script>
-	const initModal = () => {
-		const modal = document.getElementById('image-modal') as HTMLDialogElement;
-		const modalImg = document.getElementById('modal-image') as HTMLImageElement;
+<script is:inline>
+	document.addEventListener('astro:page-load', () => {
+		const modal = document.getElementById('image-modal');
+		const modalImg = document.getElementById('modal-image');
 		const closeBtn = document.getElementById('close-modal');
 		const images = document.querySelectorAll('.project-image');
 
 		if (modal && modalImg && closeBtn) {
 			images.forEach((img) => {
 				img.addEventListener('click', (e) => {
-					const target = e.target as HTMLImageElement;
+					const target = e.target;
 					modalImg.src = target.src;
 					modalImg.alt = target.alt;
 					modal.showModal();
@@ -293,7 +293,5 @@ const t = useTranslations(lang);
 				document.body.style.overflow = '';
 			});
 		}
-	};
-	
-	initModal();
+	});
 </script>

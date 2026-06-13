@@ -1,6 +1,7 @@
 ---
 import { getLangFromUrl, useTranslations, type UIKeys } from '../../../i18n/ui';
 import { projectsData } from '../../../data/projects';
+import { Image } from 'astro:assets';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -11,6 +12,11 @@ const t = useTranslations(lang);
 	<div class="projects-grid">
 		{projectsData.map(project => (
 			<article class="project-card">
+				{project.image && (
+					<div class="project-image-wrapper">
+						<Image src={project.image} alt={t(`projects.${project.id}.title` as any)} class="project-image" />
+					</div>
+				)}
 				<div class="project-content">
 					<div class="project-header">
 						<h3 class="project-title">{t(`projects.${project.id}.title` as UIKeys)}</h3>
@@ -36,6 +42,14 @@ const t = useTranslations(lang);
 		))}
 	</div>
 </section>
+
+<!-- Image Modal -->
+<dialog id="image-modal" class="image-modal">
+	<div class="modal-content">
+		<button id="close-modal" class="close-btn" aria-label="Close modal">&times;</button>
+		<img id="modal-image" src="" alt="Project Preview" />
+	</div>
+</dialog>
 
 <style>
 	.projects-section {
@@ -71,8 +85,27 @@ const t = useTranslations(lang);
 		transform: translateY(-4px);
 	}
 
+	.project-card:hover .project-image {
+		transform: scale(1.05);
+	}
+
 	:global(.dark) .project-card:hover {
 		box-shadow: 0 10px 40px -10px rgba(255, 255, 255, 0.03);
+	}
+
+	.project-image-wrapper {
+		width: 100%;
+		aspect-ratio: 16 / 9;
+		overflow: hidden;
+		border-bottom: 1px solid var(--border-light);
+	}
+
+	.project-image {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 0.5s ease;
+		cursor: pointer;
 	}
 
 	.project-content {
@@ -164,4 +197,103 @@ const t = useTranslations(lang);
 	:global(.dark) .stack-tag:hover {
 		box-shadow: 0 2px 8px rgba(255, 255, 255, 0.03);
 	}
+
+	/* Modal Styles */
+	.image-modal {
+		border: none;
+		background: transparent;
+		padding: 0;
+		margin: auto;
+		overflow: visible;
+		max-width: 90vw;
+		max-height: 90vh;
+	}
+
+	.image-modal:not([open]) {
+		display: none;
+	}
+
+	.image-modal::backdrop {
+		background: rgba(0, 0, 0, 0.85);
+		backdrop-filter: blur(5px);
+	}
+
+	.modal-content {
+		position: relative;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	#modal-image {
+		max-width: 90vw;
+		max-height: 90vh;
+		object-fit: contain;
+		border-radius: 8px;
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+	}
+
+	.close-btn {
+		position: absolute;
+		top: -2.5rem;
+		right: 0;
+		background: none;
+		border: none;
+		color: white;
+		font-size: 3rem;
+		cursor: pointer;
+		line-height: 1;
+		transition: transform 0.2s;
+		z-index: 10;
+		text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+	}
+
+	.close-btn:hover {
+		transform: scale(1.1);
+	}
 </style>
+
+<script>
+	const initModal = () => {
+		const modal = document.getElementById('image-modal') as HTMLDialogElement;
+		const modalImg = document.getElementById('modal-image') as HTMLImageElement;
+		const closeBtn = document.getElementById('close-modal');
+		const images = document.querySelectorAll('.project-image');
+
+		if (modal && modalImg && closeBtn) {
+			images.forEach((img) => {
+				img.addEventListener('click', (e) => {
+					const target = e.target as HTMLImageElement;
+					modalImg.src = target.src;
+					modalImg.alt = target.alt;
+					modal.showModal();
+					document.body.style.overflow = 'hidden';
+				});
+			});
+
+			const closeModal = () => {
+				if (modal.open) {
+					modal.close();
+					document.body.style.overflow = '';
+				}
+			};
+
+			closeBtn.addEventListener('click', closeModal);
+
+			modal.addEventListener('click', (e) => {
+				const rect = modal.getBoundingClientRect();
+				const isInDialog = (rect.top <= e.clientY && e.clientY <= rect.top + rect.height &&
+									rect.left <= e.clientX && e.clientX <= rect.left + rect.width);
+				if (!isInDialog) {
+					closeModal();
+				}
+			});
+
+			modal.addEventListener('close', () => {
+				document.body.style.overflow = '';
+			});
+		}
+	};
+	
+	initModal();
+</script>

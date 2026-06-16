@@ -4,6 +4,7 @@ import Navbar from '../../components/layout/navbar/Navbar.astro';
 import Profile from '../../components/sections/profile/Profile.astro';
 import Stack from '../../components/sections/stack/Stack.astro';
 import Experience from '../../components/sections/experience/Experience.astro';
+import Education from '../../components/sections/education/Education.astro';
 import Projects from '../../components/sections/projects/Projects.astro';
 
 export function getStaticPaths() {
@@ -22,6 +23,7 @@ const { lang } = Astro.params;
 		<Profile />
 		<Stack />
 		<Experience />
+		<Education />
 		<Projects />
 	</main>
 </Layout>

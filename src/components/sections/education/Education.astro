@@ -1,0 +1,108 @@
+---
+import { getLangFromUrl, useTranslations } from '../../../i18n/ui';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+<section id="education" class="education-section">
+	<h2 class="section-title">{t('education.title')}</h2>
+	
+	<div class="education-timeline">
+		<article class="education-item">
+			<div class="timeline-dot"></div>
+			<div class="education-content">
+				<div class="education-header">
+					<h3 class="education-role">{t('education.uni.degree')}</h3>
+					<span class="education-date">{t('education.uni.date')}</span>
+				</div>
+				<h4 class="education-company">{t('education.uni.name')}</h4>
+			</div>
+		</article>
+	</div>
+</section>
+
+<style>
+	.education-section {
+		display: flex;
+		flex-direction: column;
+		margin-top: 4rem;
+		scroll-margin-top: 2vh;
+	}
+
+	.education-timeline {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+		position: relative;
+		padding-left: 1.5rem;
+	}
+
+	.education-timeline::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0.35rem;
+		width: 2px;
+		background-color: var(--border-light);
+	}
+
+	.education-item {
+		display: flex;
+		flex-direction: column;
+		position: relative;
+	}
+
+	.timeline-dot {
+		position: absolute;
+		left: -1.5rem; 
+		top: 0.35rem; 
+		width: 0.8rem;
+		height: 0.8rem;
+		border-radius: 50%;
+		background-color: var(--text-primary);
+		border: 2px solid var(--bg-primary);
+		box-shadow: 0 0 0 2px var(--border-light);
+		z-index: 1;
+	}
+
+	.education-content {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.education-header {
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+	}
+
+	@media (min-width: 480px) {
+		.education-header {
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
+		}
+	}
+
+	.education-role {
+		font-size: 1.125rem;
+		font-weight: 600;
+		color: var(--text-primary);
+		line-height: 1.4;
+	}
+
+	.education-date {
+		font-size: 0.85rem;
+		color: var(--text-tertiary);
+		font-weight: bolder;
+	}
+
+	.education-company {
+		font-size: 0.95rem;
+		font-weight: 500;
+		color: var(--text-secondary);
+		margin-bottom: 0.25rem;
+	}
+</style>

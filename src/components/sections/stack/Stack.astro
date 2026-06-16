@@ -25,7 +25,7 @@ const t = useTranslations(lang);
 						class="tech-icon"
 						style={
 							tech.iconWidth
-								? `width: ${tech.iconWidth}; height: auto; max-height: 24px;`
+								? `width: ${tech.iconWidth}; height: auto; max-height: 32px;`
 								: ""
 						}
 					/>
@@ -42,6 +42,7 @@ const t = useTranslations(lang);
 	.stack-section {
 		display: flex;
 		flex-direction: column;
+		scroll-margin-top: 2vh;
 	}
 
 	.stack-grid {
@@ -75,8 +76,8 @@ const t = useTranslations(lang);
 	}
 
 	.tech-icon {
-		width: 16px;
-		height: 16px;
+		width: 24px;
+		height: 24px;
 		object-fit: contain;
 		filter: grayscale(0%) opacity(1);
 		transition: all 0.2s ease;

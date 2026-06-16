@@ -76,9 +76,9 @@ export const ui = {
     'experience.epam_backend.date': 'November 2022 - February 2023',
     'experience.epam_backend.desc': 'Development and maintenance of an internal management system, including user and inventory modules, testing, and application support.',
     'education.title': 'Education',
-    'education.uni.degree': 'University Degree',
-    'education.uni.name': 'University Name',
-    'education.uni.date': 'Graduation Year',
+    'education.uni.degree': 'Information and Communications Technology Engineer',
+    'education.uni.name': 'Universidad Laica Eloy Alfaro de Manabí',
+    'education.uni.date': '2018 - 2024',
   },
 } as const;
 

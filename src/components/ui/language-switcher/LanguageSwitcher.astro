@@ -5,13 +5,14 @@ const lang = getLangFromUrl(Astro.url);
 const currentPath = Astro.url.pathname.replace(`/${lang}`, '');
 ---
 
-<div class="lang-switcher">
+<div class="lang-switcher" transition:persist="lang-switcher">
   {
     Object.entries(languages).map(([code, label]) => (
       <a
         href={`/${code}${currentPath}`}
         class={`lang-btn ${lang === code ? 'active' : ''}`}
         aria-label={`Change language to ${label}`}
+        data-lang={code}
         onclick="sessionStorage.setItem('scrollPosition', window.scrollY.toString())"
       >
         {code.toUpperCase()}
@@ -20,37 +21,80 @@ const currentPath = Astro.url.pathname.replace(`/${lang}`, '');
   }
 </div>
 
+<script>
+  document.addEventListener('astro:page-load', () => {
+    // Determine current language from URL
+    let [, currentLang] = window.location.pathname.split('/');
+    if (!currentLang || (currentLang !== 'es' && currentLang !== 'en')) {
+      currentLang = 'es'; // default language
+    }
+    
+    const buttons = document.querySelectorAll('.lang-btn');
+    buttons.forEach(btn => {
+      // Re-evaluate href to keep it correct if we navigated
+      const code = btn.getAttribute('data-lang');
+      if (code) {
+        let newPath = window.location.pathname.replace(`/${currentLang}`, '');
+        if (newPath === '') newPath = '/';
+        btn.setAttribute('href', `/${code}${newPath === '/' ? '' : newPath}`);
+        
+        if (code === currentLang) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      }
+    });
+  });
+</script>
+
 <style>
   .lang-switcher {
+    position: fixed;
+    bottom: 2rem;
+    left: 2rem;
+    z-index: 1000;
     display: flex;
     gap: 0.25rem;
     align-items: center;
-    background-color: var(--bg-tertiary);
-    padding: 0.2rem;
-    border-radius: 20px;
+    background-color: var(--bg-primary);
+    padding: 0.3rem;
+    border-radius: 24px;
+    border: 1px solid var(--border-light);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  :global(.dark) .lang-switcher {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
   }
 
   .lang-btn {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     font-weight: 600;
-    padding: 0.25rem 0.5rem;
-    border-radius: 16px;
+    padding: 0.35rem 0.6rem;
+    border-radius: 20px;
     color: var(--text-secondary);
     transition: all 0.2s ease;
+    text-decoration: none;
   }
 
   .lang-btn:hover {
     color: var(--text-primary);
+    background-color: var(--bg-tertiary);
   }
 
   .lang-btn.active {
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    background-color: var(--text-primary);
+    color: var(--bg-primary);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 
-  :global(.dark) .lang-btn.active {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  @media (max-width: 768px) {
+    .lang-switcher {
+      bottom: 1.5rem;
+      left: 1.5rem;
+    }
   }
 </style>
 

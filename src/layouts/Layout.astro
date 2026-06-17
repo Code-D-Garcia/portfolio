@@ -1,6 +1,8 @@
 ---
 import { ClientRouter } from 'astro:transitions';
 import { getLangFromUrl, useTranslations } from '../i18n/ui';
+import ThemeToggle from '../components/ui/theme-toggle/ThemeToggle.astro';
+import LanguageSwitcher from '../components/ui/language-switcher/LanguageSwitcher.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -77,6 +79,8 @@ const pageTitle = title || t('site.title');
 	</head>
 	<body>
 		<slot />
+		<ThemeToggle />
+		<LanguageSwitcher />
 	</body>
 </html>
 

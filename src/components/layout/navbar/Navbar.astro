@@ -1,6 +1,4 @@
 ---
-import LanguageSwitcher from '../../ui/language-switcher/LanguageSwitcher.astro';
-import ThemeToggle from '../../ui/theme-toggle/ThemeToggle.astro';
 import { getLangFromUrl, useTranslations } from '../../../i18n/ui';
 
 const lang = getLangFromUrl(Astro.url);
@@ -22,10 +20,6 @@ const t = useTranslations(lang);
 			<li><a href="#education" class="nav-link">{t('nav.education')}</a></li>
 			<li><a href="#projects" class="nav-link">{t('nav.projects')}</a></li>
 		</ul>
-		<div class="nav-actions">
-			<LanguageSwitcher />
-			<ThemeToggle />
-		</div>
 	</div>
 </nav>
 

@@ -1,7 +1,6 @@
 ---
 import { getLangFromUrl, useTranslations, type UIKeys } from '../../../i18n/ui';
 import { projectsData } from '../../../data/projects';
-import { Image } from 'astro:assets';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -12,21 +11,53 @@ const t = useTranslations(lang);
 	<div class="projects-grid">
 		{projectsData.map(project => (
 			<article class="project-card">
-				{project.image && (
-					<div class="project-image-wrapper">
-						<Image src={project.image} alt={t(`projects.${project.id}.title` as any)} class="project-image" />
-					</div>
-				)}
+				{(() => {
+					const proj = project as any;
+					const images = proj.images || (proj.image ? [proj.image] : []);
+					if (images.length === 0) return null;
+					return (
+						<div class="project-image-wrapper">
+							<div class="carousel-track">
+								{images.map((img: any, index: number) => (
+									<div class={`carousel-slide ${index === 0 ? 'active' : ''}`} data-index={index}>
+										<img src={img.src || img} alt={t(`projects.${project.id}.title` as any)} class="project-image" loading="lazy" />
+									</div>
+								))}
+							</div>
+							{images.length > 1 && (
+								<>
+									<button class="carousel-control prev" aria-label="Previous slide" data-dir="prev">
+										<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+									</button>
+									<button class="carousel-control next" aria-label="Next slide" data-dir="next">
+										<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+									</button>
+									<div class="carousel-indicators">
+										{images.map((_: any, index: number) => (
+											<button class={`carousel-indicator ${index === 0 ? 'active' : ''}`} data-slide-to={index} aria-label={`Go to slide ${index + 1}`}></button>
+										))}
+									</div>
+								</>
+							)}
+						</div>
+					);
+				})()}
 				<div class="project-content">
 					<div class="project-header">
 						<h3 class="project-title">{t(`projects.${project.id}.title` as UIKeys)}</h3>
-						<div class="project-links">
-							<a href={project.repo} target="_blank" rel="noopener noreferrer" class="link">{t('projects.link.code')}</a>
-							<a href={project.link} target="_blank" rel="noopener noreferrer" class="link">{t('projects.link.visit')}</a>
-							{project.appLink && (
-								<a href={project.appLink} target="_blank" rel="noopener noreferrer" class="link">{t('projects.link.app')}</a>
-							)}
-						</div>
+						{((project as any).repo || (project as any).link || (project as any).appLink) && (
+							<div class="project-links">
+								{(project as any).repo && (
+									<a href={(project as any).repo} target="_blank" rel="noopener noreferrer" class="link">{t('projects.link.code')}</a>
+								)}
+								{(project as any).link && (
+									<a href={(project as any).link} target="_blank" rel="noopener noreferrer" class="link">{t('projects.link.visit')}</a>
+								)}
+								{(project as any).appLink && (
+									<a href={(project as any).appLink} target="_blank" rel="noopener noreferrer" class="link">{t('projects.link.app')}</a>
+								)}
+							</div>
+						)}
 					</div>
 					<p class="project-description">{t(`projects.${project.id}.desc` as UIKeys)}</p>
 
@@ -50,7 +81,13 @@ const t = useTranslations(lang);
 <dialog id="image-modal" class="image-modal">
 	<div class="modal-content">
 		<button id="close-modal" class="close-btn" aria-label="Close modal">&times;</button>
+		<button id="modal-prev" class="modal-nav-btn prev hidden" aria-label="Previous image">
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+		</button>
 		<img id="modal-image" src="" alt="Project Preview" />
+		<button id="modal-next" class="modal-nav-btn next hidden" aria-label="Next image">
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+		</button>
 	</div>
 </dialog>
 
@@ -97,10 +134,35 @@ const t = useTranslations(lang);
 	}
 
 	.project-image-wrapper {
+		position: relative;
 		width: 100%;
 		aspect-ratio: 16 / 9;
 		overflow: hidden;
 		border-bottom: 1px solid var(--border-light);
+	}
+
+	.carousel-track {
+		width: 100%;
+		height: 100%;
+		position: relative;
+	}
+
+	.carousel-slide {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		opacity: 0;
+		transition: opacity 0.4s ease-in-out;
+		pointer-events: none;
+		z-index: 1;
+	}
+
+	.carousel-slide.active {
+		opacity: 1;
+		pointer-events: auto;
+		z-index: 2;
 	}
 
 	.project-image {
@@ -109,6 +171,88 @@ const t = useTranslations(lang);
 		object-fit: cover;
 		transition: transform 0.5s ease;
 		cursor: pointer;
+	}
+
+	.carousel-control {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		background: rgba(0, 0, 0, 0.4);
+		color: white;
+		border: none;
+		width: 36px;
+		height: 36px;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		z-index: 10;
+		transition: background-color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+		opacity: 0;
+	}
+
+	.project-image-wrapper:hover .carousel-control {
+		opacity: 1;
+	}
+
+	@media (max-width: 768px) {
+		.carousel-control {
+			opacity: 0.8;
+			width: 32px;
+			height: 32px;
+		}
+	}
+
+	.carousel-control:hover {
+		background: rgba(0, 0, 0, 0.7);
+		transform: translateY(-50%) scale(1.1);
+	}
+
+	.carousel-control:active {
+		transform: translateY(-50%) scale(0.95);
+	}
+
+	.carousel-control.prev {
+		left: 12px;
+	}
+
+	.carousel-control.next {
+		right: 12px;
+	}
+
+	.carousel-indicators {
+		position: absolute;
+		bottom: 12px;
+		left: 50%;
+		transform: translateX(-50%);
+		display: flex;
+		gap: 8px;
+		z-index: 10;
+		background: rgba(0, 0, 0, 0.3);
+		padding: 6px 10px;
+		border-radius: 20px;
+		backdrop-filter: blur(4px);
+	}
+
+	.carousel-indicator {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: rgba(255, 255, 255, 0.4);
+		border: none;
+		padding: 0;
+		cursor: pointer;
+		transition: background-color 0.2s ease, transform 0.2s ease;
+	}
+
+	.carousel-indicator:hover {
+		background: rgba(255, 255, 255, 0.8);
+	}
+
+	.carousel-indicator.active {
+		background: #ffffff;
+		transform: scale(1.25);
 	}
 
 	.project-content {
@@ -246,6 +390,62 @@ const t = useTranslations(lang);
 	.close-btn:hover {
 		transform: scale(1.1);
 	}
+
+	.modal-nav-btn {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		background: rgba(0, 0, 0, 0.5);
+		border: none;
+		color: white;
+		width: 48px;
+		height: 48px;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		z-index: 12;
+		transition: background-color 0.2s, transform 0.2s, opacity 0.2s;
+		backdrop-filter: blur(4px);
+	}
+
+	.modal-nav-btn:hover {
+		background: rgba(0, 0, 0, 0.8);
+		transform: translateY(-50%) scale(1.1);
+	}
+
+	.modal-nav-btn:active {
+		transform: translateY(-50%) scale(0.95);
+	}
+
+	.modal-nav-btn.prev {
+		left: -4rem;
+	}
+
+	.modal-nav-btn.next {
+		right: -4rem;
+	}
+
+	@media (max-width: 1024px) {
+		.modal-nav-btn.prev {
+			left: 1rem;
+		}
+
+		.modal-nav-btn.next {
+			right: 1rem;
+		}
+		
+		.modal-nav-btn {
+			width: 40px;
+			height: 40px;
+			background: rgba(0, 0, 0, 0.6);
+		}
+	}
+
+	.modal-nav-btn.hidden {
+		display: none;
+	}
 </style>
 
 <script is:inline>
@@ -253,18 +453,133 @@ const t = useTranslations(lang);
 		const modal = document.getElementById('image-modal');
 		const modalImg = document.getElementById('modal-image');
 		const closeBtn = document.getElementById('close-modal');
+		const modalPrevBtn = document.getElementById('modal-prev');
+		const modalNextBtn = document.getElementById('modal-next');
 		const images = document.querySelectorAll('.project-image');
+
+		let modalImagesList = [];
+		let modalCurrentIndex = 0;
+
+		const updateModalImage = () => {
+			if (modalImagesList.length > 0) {
+				const currentImg = modalImagesList[modalCurrentIndex];
+				modalImg.src = currentImg.src;
+				modalImg.alt = currentImg.alt;
+
+				// Sync the corresponding project's card carousel
+				const wrapper = currentImg.closest('.project-image-wrapper');
+				if (wrapper) {
+					wrapper.dataset.currentIndex = modalCurrentIndex.toString();
+
+					const slides = wrapper.querySelectorAll('.carousel-slide');
+					const indicators = wrapper.querySelectorAll('.carousel-indicator');
+					if (slides.length > 1) {
+						slides.forEach((slide, idx) => {
+							if (idx === modalCurrentIndex) {
+								slide.classList.add('active');
+							} else {
+								slide.classList.remove('active');
+							}
+						});
+						indicators.forEach((indicator, idx) => {
+							if (idx === modalCurrentIndex) {
+								indicator.classList.add('active');
+							} else {
+								indicator.classList.remove('active');
+							}
+						});
+					}
+				}
+			}
+		};
 
 		if (modal && modalImg && closeBtn) {
 			images.forEach((img) => {
 				img.addEventListener('click', (e) => {
 					const target = e.target;
-					modalImg.src = target.src;
-					modalImg.alt = target.alt;
+					
+					// Find siblings in the same carousel
+					const wrapper = target.closest('.project-image-wrapper');
+					if (wrapper) {
+						modalImagesList = Array.from(wrapper.querySelectorAll('.project-image'));
+						modalCurrentIndex = modalImagesList.indexOf(target);
+					} else {
+						modalImagesList = [target];
+						modalCurrentIndex = 0;
+					}
+
+					// Show/hide controls
+					if (modalImagesList.length > 1) {
+						modalPrevBtn.classList.remove('hidden');
+						modalNextBtn.classList.remove('hidden');
+					} else {
+						modalPrevBtn.classList.add('hidden');
+						modalNextBtn.classList.add('hidden');
+					}
+
+					updateModalImage();
 					modal.showModal();
 					document.body.style.overflow = 'hidden';
 				});
 			});
+
+			const nextModalImage = () => {
+				if (modalImagesList.length <= 1) return;
+				modalCurrentIndex = (modalCurrentIndex + 1) % modalImagesList.length;
+				updateModalImage();
+			};
+
+			const prevModalImage = () => {
+				if (modalImagesList.length <= 1) return;
+				modalCurrentIndex = (modalCurrentIndex - 1 + modalImagesList.length) % modalImagesList.length;
+				updateModalImage();
+			};
+
+			if (modalPrevBtn) {
+				modalPrevBtn.addEventListener('click', (e) => {
+					e.stopPropagation();
+					prevModalImage();
+				});
+			}
+
+			if (modalNextBtn) {
+				modalNextBtn.addEventListener('click', (e) => {
+					e.stopPropagation();
+					nextModalImage();
+				});
+			}
+
+			// Keyboard controls when modal is open
+			window.addEventListener('keydown', (e) => {
+				if (!modal.open) return;
+				if (e.key === 'ArrowRight') {
+					nextModalImage();
+				} else if (e.key === 'ArrowLeft') {
+					prevModalImage();
+				}
+			});
+
+			// Touch gestures inside the modal
+			let modalTouchStartX = 0;
+			let modalTouchEndX = 0;
+
+			modal.addEventListener('touchstart', (e) => {
+				modalTouchStartX = e.changedTouches[0].screenX;
+			}, { passive: true });
+
+			modal.addEventListener('touchend', (e) => {
+				modalTouchEndX = e.changedTouches[0].screenX;
+				handleModalGesture();
+			}, { passive: true });
+
+			const handleModalGesture = () => {
+				if (modalTouchEndX < modalTouchStartX - 50) {
+					nextModalImage();
+				}
+				if (modalTouchEndX > modalTouchStartX + 50) {
+					prevModalImage();
+				}
+			};
 
 			const closeModal = () => {
 				if (modal.open) {
@@ -288,5 +603,82 @@ const t = useTranslations(lang);
 				document.body.style.overflow = '';
 			});
 		}
+
+		// Carousel logic
+		const carousels = document.querySelectorAll('.project-image-wrapper');
+		carousels.forEach((carousel) => {
+			const slides = carousel.querySelectorAll('.carousel-slide');
+			if (slides.length <= 1) return;
+
+			const prevBtn = carousel.querySelector('.carousel-control.prev');
+			const nextBtn = carousel.querySelector('.carousel-control.next');
+			const indicators = carousel.querySelectorAll('.carousel-indicator');
+			
+			// Store index on the element
+			carousel.dataset.currentIndex = "0";
+
+			const showSlide = (index) => {
+				let currentIndex = parseInt(carousel.dataset.currentIndex || "0", 10);
+				
+				slides[currentIndex].classList.remove('active');
+				if (indicators[currentIndex]) {
+					indicators[currentIndex].classList.remove('active');
+				}
+
+				currentIndex = (index + slides.length) % slides.length;
+				carousel.dataset.currentIndex = currentIndex.toString();
+
+				slides[currentIndex].classList.add('active');
+				if (indicators[currentIndex]) {
+					indicators[currentIndex].classList.add('active');
+				}
+			};
+
+			if (prevBtn) {
+				prevBtn.addEventListener('click', (e) => {
+					e.stopPropagation();
+					let currentIndex = parseInt(carousel.dataset.currentIndex || "0", 10);
+					showSlide(currentIndex - 1);
+				});
+			}
+
+			if (nextBtn) {
+				nextBtn.addEventListener('click', (e) => {
+					e.stopPropagation();
+					let currentIndex = parseInt(carousel.dataset.currentIndex || "0", 10);
+					showSlide(currentIndex + 1);
+				});
+			}
+
+			indicators.forEach((indicator, index) => {
+				indicator.addEventListener('click', (e) => {
+					e.stopPropagation();
+					showSlide(index);
+				});
+			});
+
+			// Touch swipe gestures
+			let touchStartX = 0;
+			let touchEndX = 0;
+
+			carousel.addEventListener('touchstart', (e) => {
+				touchStartX = e.changedTouches[0].screenX;
+			}, { passive: true });
+
+			carousel.addEventListener('touchend', (e) => {
+				touchEndX = e.changedTouches[0].screenX;
+				handleGesture();
+			}, { passive: true });
+
+			const handleGesture = () => {
+				let currentIndex = parseInt(carousel.dataset.currentIndex || "0", 10);
+				if (touchEndX < touchStartX - 50) {
+					showSlide(currentIndex + 1);
+				}
+				if (touchEndX > touchStartX + 50) {
+					showSlide(currentIndex - 1);
+				}
+			};
+		});
 	});
 </script>

@@ -5,8 +5,17 @@ import polmailConfig from '../assets/captures/polmail/captura_config.webp';
 import polmailSnippes from '../assets/captures/polmail/captura_snippes.webp';
 import polmailTickets from '../assets/captures/polmail/captura_tickets.webp';
 import chiroResumen from '../assets/captures/chiro_resumen.webp';
+import eternalResumen from '../assets/captures/espacio_compartido/eternal_resumen.webp';
+import capturaLogin from '../assets/captures/espacio_compartido/captura_login.webp';
+import capturaVideojuegos from '../assets/captures/espacio_compartido/captura_videojuegos.webp';
+import modalMedia from '../assets/captures/espacio_compartido/modal_media.webp';
 
 export const projectsData = [
+	{
+		id: 'eternal',
+		stack: ["Node.js", "Express", "Prisma", "PostgreSQL", "React", "TypeScript"],
+		images: [eternalResumen, capturaLogin, capturaVideojuegos, modalMedia]
+	},
 	{
 		id: 'polmail',
 		stack: ["Node.js", "Express", "React", "JavaScript", "TypeScript", "DiscordJS", "PgSQL", "JWT"],

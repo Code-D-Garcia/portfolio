@@ -45,19 +45,26 @@ const t = useTranslations(lang);
 				<div class="project-content">
 					<div class="project-header">
 						<h3 class="project-title">{t(`projects.${project.id}.title` as UIKeys)}</h3>
-						{((project as any).repo || (project as any).link || (project as any).appLink) && (
-							<div class="project-links">
-								{(project as any).repo && (
-									<a href={(project as any).repo} target="_blank" rel="noopener noreferrer" class="link">{t('projects.link.code')}</a>
-								)}
-								{(project as any).link && (
-									<a href={(project as any).link} target="_blank" rel="noopener noreferrer" class="link">{t('projects.link.visit')}</a>
-								)}
-								{(project as any).appLink && (
-									<a href={(project as any).appLink} target="_blank" rel="noopener noreferrer" class="link">{t('projects.link.app')}</a>
-								)}
-							</div>
-						)}
+						<div class="project-links">
+							{((project as any).repo || (project as any).link || (project as any).appLink) ? (
+								<>
+									{(project as any).repo && (
+										<a href={(project as any).repo} target="_blank" rel="noopener noreferrer" class="link">{t('projects.link.code')}</a>
+									)}
+									{(project as any).link && (
+										<a href={(project as any).link} target="_blank" rel="noopener noreferrer" class="link">{t('projects.link.visit')}</a>
+									)}
+									{(project as any).appLink && (
+										<a href={(project as any).appLink} target="_blank" rel="noopener noreferrer" class="link">{t('projects.link.app')}</a>
+									)}
+								</>
+							) : (
+								<span class="private-badge">
+									<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+									{t('projects.private' as UIKeys)}
+								</span>
+							)}
+						</div>
 					</div>
 					<p class="project-description">{t(`projects.${project.id}.desc` as UIKeys)}</p>
 
@@ -292,6 +299,21 @@ const t = useTranslations(lang);
 
 	.link:hover {
 		color: var(--text-primary);
+	}
+
+	.private-badge {
+		font-size: 0.85rem;
+		color: var(--text-secondary);
+		opacity: 0.85;
+		font-weight: 500;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		cursor: default;
+	}
+
+	.private-badge svg {
+		flex-shrink: 0;
 	}
 
 	.project-description {

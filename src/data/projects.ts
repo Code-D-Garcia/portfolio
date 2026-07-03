@@ -11,9 +11,10 @@ import capturaVideojuegos from '../assets/captures/espacio_compartido/captura_vi
 import modalMedia from '../assets/captures/espacio_compartido/modal_media.webp';
 import epamSysMg from '../assets/captures/sistema_gestion_epam/epam_sys_mg.webp';
 import resumenEpamSys from '../assets/captures/sistema_gestion_epam/resumen_epam_sys.webp';
+import epamIotApp from '../assets/captures/sistema_iot_epam/epam_iot_app.webp';
+import epamIotResumen from '../assets/captures/sistema_iot_epam/epam_iot_resumen.png';
 
 export const projectsData = [
-
 	{
 		id: 'eternal',
 		stack: ["Node.js", "Express", "Prisma", "PostgreSQL", "React", "TypeScript"],
@@ -39,11 +40,15 @@ export const projectsData = [
 		repo: "https://github.com/Code-D-Garcia/groovy-overlay",
 		image: groovyOverlay,
 	},
-		{
+	{
+		id: 'epam_iot',
+		stack: ["Node.js", "Express", "PostgreSQL", "Arduino", "ESP32", "DHT22 Sensor", "Vue", "React Native", "IoT"],
+		images: [epamIotResumen, epamIotApp]
+	},
+	{
 		id: 'epam',
 		stack: ["Node.js", "Express", "PostgreSQL", "React", "TypeScript"],
 		images: [resumenEpamSys, epamSysMg]
 	},
-	
 ];
 

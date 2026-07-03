@@ -9,8 +9,11 @@ import eternalResumen from '../assets/captures/espacio_compartido/eternal_resume
 import capturaLogin from '../assets/captures/espacio_compartido/captura_login.webp';
 import capturaVideojuegos from '../assets/captures/espacio_compartido/captura_videojuegos.webp';
 import modalMedia from '../assets/captures/espacio_compartido/modal_media.webp';
+import epamSysMg from '../assets/captures/sistema_gestion_epam/epam_sys_mg.webp';
+import resumenEpamSys from '../assets/captures/sistema_gestion_epam/resumen_epam_sys.webp';
 
 export const projectsData = [
+
 	{
 		id: 'eternal',
 		stack: ["Node.js", "Express", "Prisma", "PostgreSQL", "React", "TypeScript"],
@@ -35,6 +38,12 @@ export const projectsData = [
 		link: "https://youtu.be/kTuhsJCAX_E",
 		repo: "https://github.com/Code-D-Garcia/groovy-overlay",
 		image: groovyOverlay,
-	}
+	},
+		{
+		id: 'epam',
+		stack: ["Node.js", "Express", "PostgreSQL", "React", "TypeScript"],
+		images: [resumenEpamSys, epamSysMg]
+	},
+	
 ];
 

@@ -1,0 +1,58 @@
+---
+import Layout from '../../../layouts/Layout.astro';
+import Navbar from '../../../components/layout/navbar/Navbar.astro';
+import Projects from '../../../components/sections/projects/Projects.astro';
+import { getLangFromUrl, useTranslations } from '../../../i18n/ui';
+
+export function getStaticPaths() {
+  return [
+    { params: { lang: 'es' } },
+    { params: { lang: 'en' } },
+  ];
+}
+
+const { lang } = Astro.params;
+const t = useTranslations(lang as any);
+---
+
+<Layout title={`${t('projects.all.title')} | ${t('site.title')}`}>
+	<Navbar />
+	<main class="container other-projects-page">
+		<div class="back-home-wrapper">
+			<a href={`/${lang}/#projects`} class="back-home-btn">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+				{t('projects.back')}
+			</a>
+		</div>
+		<Projects showFilters={true} />
+	</main>
+</Layout>
+
+<style>
+	.other-projects-page {
+		padding-top: 2rem;
+		min-height: 100vh;
+	}
+
+	.back-home-wrapper {
+		padding-top: 6rem;
+		margin-bottom: -4rem;
+		position: relative;
+		z-index: 10;
+	}
+
+	.back-home-btn {
+		font-size: 0.95rem;
+		font-weight: 500;
+		color: var(--text-secondary);
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		transition: all 0.2s ease;
+	}
+
+	.back-home-btn:hover {
+		color: var(--text-primary);
+		transform: translateX(-4px);
+	}
+</style>

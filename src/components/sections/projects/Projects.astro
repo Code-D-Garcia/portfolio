@@ -2,15 +2,79 @@
 import { getLangFromUrl, useTranslations, type UIKeys } from '../../../i18n/ui';
 import { projectsData } from '../../../data/projects';
 
+interface Props {
+	limit?: number;
+	showAllLink?: boolean;
+	showFilters?: boolean;
+}
+
+const { limit, showAllLink = false, showFilters = false } = Astro.props;
+
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
+
+// Normalize user-defined primary filters
+const filterMap: Record<string, string> = {
+	"Spring Boot": "Spring Boot",
+	"Node.js": "NODEJS",
+	"NodeJS": "NODEJS",
+	"Express": "ExpressJS",
+	"ExpressJS": "ExpressJS",
+	"JavaScript": "JavaScript",
+	"TypeScript": "TypeScript",
+	"PostgreSQL": "PostgreSQL",
+	"PgSQL": "PostgreSQL",
+	"IoT": "IoT",
+	"React": "React",
+	"React Native": "React Native",
+	"Vue": "Vue",
+	"WebSockets": "WebSockets"
+};
+
+const allowedFilters = [
+	"Spring Boot",
+	"NODEJS",
+	"ExpressJS",
+	"JavaScript",
+	"TypeScript",
+	"PostgreSQL",
+	"IoT",
+	"React",
+	"React Native",
+	"Vue",
+	"WebSockets"
+];
+
+const displayedProjects = (limit ? projectsData.slice(0, limit) : projectsData).map(project => {
+	const projectFilters = project.stack
+		? project.stack.map(tech => filterMap[tech]).filter(Boolean)
+		: [];
+	return {
+		...project,
+		filters: projectFilters.join(',')
+	};
+});
 ---
 <section id="projects" class="projects-section">
-	<h2 class="section-title">{t('projects.title')}</h2>
+	<h2 class="section-title">
+		{showFilters ? t('projects.all.title' as UIKeys) : t('projects.title')}
+	</h2>
+
+	{showFilters && (
+		<div class="filter-container">
+			<span class="filter-label">{t('projects.filter.title' as UIKeys)}</span>
+			<div class="filter-buttons">
+				<button class="filter-btn active" data-filter="all">{t('projects.filter.all' as UIKeys)}</button>
+				{allowedFilters.map(tech => (
+					<button class="filter-btn" data-filter={tech}>{tech}</button>
+				))}
+			</div>
+		</div>
+	)}
 	
 	<div class="projects-grid">
-		{projectsData.map(project => (
-			<article class="project-card">
+		{displayedProjects.map(project => (
+			<article class="project-card" data-stack={project.filters}>
 				{(() => {
 					const proj = project as any;
 					const images = proj.images || (proj.image ? [proj.image] : []);
@@ -82,6 +146,14 @@ const t = useTranslations(lang);
 			</article>
 		))}
 	</div>
+
+	{showAllLink && (
+		<div class="show-all-wrapper">
+			<a href={`/${lang}/other/projects/`} class="show-all-btn">
+				{t('projects.more' as UIKeys)}
+			</a>
+		</div>
+	)}
 </section>
 
 <!-- Image Modal -->
@@ -468,10 +540,130 @@ const t = useTranslations(lang);
 	.modal-nav-btn.hidden {
 		display: none;
 	}
+
+	.filter-container {
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+		margin-bottom: 2.5rem;
+		align-items: center;
+	}
+
+	.filter-label {
+		font-size: 0.9rem;
+		color: var(--text-secondary);
+		font-weight: 500;
+	}
+
+	.filter-buttons {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		justify-content: center;
+		max-width: 800px;
+	}
+
+	.filter-btn {
+		font-size: 0.8rem;
+		font-weight: 500;
+		color: var(--text-secondary);
+		padding: 0.4rem 0.9rem;
+		border-radius: 20px;
+		background-color: var(--bg-secondary);
+		border: 1px solid var(--border-light);
+		cursor: pointer;
+		transition: all 0.2s ease;
+	}
+
+	.filter-btn:hover {
+		color: var(--text-primary);
+		background-color: var(--bg-tertiary);
+		border-color: var(--border-dark);
+		transform: translateY(-1px);
+	}
+
+	.filter-btn.active {
+		background-color: var(--text-primary);
+		color: var(--bg-primary);
+		border-color: var(--text-primary);
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+	}
+
+	:global(.dark) .filter-btn.active {
+		box-shadow: 0 4px 12px rgba(255, 255, 255, 0.03);
+	}
+
+	.show-all-wrapper {
+		display: flex;
+		justify-content: center;
+		margin-top: 3rem;
+	}
+
+	.show-all-btn {
+		font-size: 0.95rem;
+		font-weight: 600;
+		color: var(--bg-primary);
+		background-color: var(--text-primary);
+		padding: 0.75rem 2rem;
+		border-radius: 30px;
+		border: 1px solid transparent;
+		cursor: pointer;
+		text-decoration: none;
+		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+
+	.show-all-btn:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+		filter: brightness(1.1);
+	}
+
+	.show-all-btn:active {
+		transform: translateY(0);
+	}
 </style>
 
 <script is:inline>
 	document.addEventListener('astro:page-load', () => {
+		// Filtering logic
+		const filterButtons = document.querySelectorAll('.filter-btn');
+		const projectCards = document.querySelectorAll('.project-card');
+
+		filterButtons.forEach(btn => {
+			btn.addEventListener('click', () => {
+				filterButtons.forEach(b => b.classList.remove('active'));
+				btn.classList.add('active');
+
+				const filterValue = btn.getAttribute('data-filter');
+
+				projectCards.forEach(card => {
+					const stackStr = card.getAttribute('data-stack') || '';
+					const stack = stackStr ? stackStr.split(',') : [];
+					
+					if (filterValue === 'all' || stack.includes(filterValue)) {
+						card.style.display = 'flex';
+						// Trigger reflow for transition
+						void card.offsetHeight;
+						card.style.opacity = '1';
+						card.style.transform = 'scale(1)';
+					} else {
+						card.style.opacity = '0';
+						card.style.transform = 'scale(0.95)';
+						// Wait for transition before display:none
+						setTimeout(() => {
+							if (card.style.opacity === '0') {
+								card.style.display = 'none';
+							}
+						}, 300);
+					}
+				});
+			});
+		});
+
 		const modal = document.getElementById('image-modal');
 		const modalImg = document.getElementById('modal-image');
 		const closeBtn = document.getElementById('close-modal');

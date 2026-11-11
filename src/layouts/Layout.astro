@@ -1,8 +1,9 @@
 ---
 import { ClientRouter } from 'astro:transitions';
-import { toLang, useTranslations, defaultLang } from '../i18n/ui';
+import { defaultLang, languages, toLang, useTranslations, type Lang } from '../i18n/ui';
 import ThemeToggle from '../components/ui/theme-toggle/ThemeToggle.astro';
 import LanguageSwitcher from '../components/ui/language-switcher/LanguageSwitcher.astro';
+import Footer from '../components/layout/footer/Footer.astro';
 import '@fontsource-variable/inter';
 import '../styles/global.css';
 
@@ -16,6 +17,14 @@ const t = useTranslations(lang);
 
 const currentPath = Astro.url.pathname.replace(`/${lang}`, '');
 const pageTitle = title || t('site.title');
+const description = t('site.description');
+
+// Absolute URLs need `site` in astro.config.mjs; without it they stay relative.
+const absolute = (path: string) => (Astro.site ? new URL(path, Astro.site).href : path);
+const localePath = (code: Lang) => absolute(`/${code}${currentPath}`);
+const canonical = localePath(lang);
+const ogImage = absolute(`/og/${lang}.jpg`);
+const ogLocale: Record<Lang, string> = { es: 'es_EC', en: 'en_US' };
 ---
 
 <!doctype html>
@@ -68,15 +77,38 @@ const pageTitle = title || t('site.title');
 			});
 		</script>
 		<title>{pageTitle}</title>
-		<meta name="description" content={t('site.description')} />
-		
-		<link rel="alternate" hreflang="es" href={`/es${currentPath}`} />
-		<link rel="alternate" hreflang="en" href={`/en${currentPath}`} />
-		<link rel="alternate" hreflang="x-default" href={`/${defaultLang}${currentPath}`} />
+		<meta name="description" content={description} />
+		<link rel="canonical" href={canonical} />
+
+		{(Object.keys(languages) as Lang[]).map((code) => (
+			<link rel="alternate" hreflang={code} href={localePath(code)} />
+		))}
+		<link rel="alternate" hreflang="x-default" href={localePath(defaultLang)} />
+
+		<meta property="og:type" content="website" />
+		<meta property="og:site_name" content="David Garcia" />
+		<meta property="og:title" content={pageTitle} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonical} />
+		<meta property="og:image" content={ogImage} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta property="og:image:alt" content={t('site.title')} />
+		<meta property="og:locale" content={ogLocale[lang]} />
+		{(Object.keys(languages) as Lang[]).filter((code) => code !== lang).map((code) => (
+			<meta property="og:locale:alternate" content={ogLocale[code]} />
+		))}
+
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={pageTitle} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImage} />
 
 	</head>
 	<body>
+		<a href="#main" class="skip-link">{t('a11y.skip')}</a>
 		<slot />
+		<Footer />
 		<ThemeToggle />
 		<LanguageSwitcher />
 	</body>

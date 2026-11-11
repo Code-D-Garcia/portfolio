@@ -1,0 +1,10 @@
+company: Grupo Empresarial Puertomar S.A
+role:
+  es: "Desarrollador de Software FullStack"
+  en: "Full Stack Software Developer"
+description:
+  es: "Diseño y desarrollo de una plataforma CRM empresarial, de una API de sincronización bidireccional entre un sistema legado y el nuevo sistema con arquitectura anticorrupción, y de una aplicación móvil para operaciones comerciales Tienda a Tienda (TAT)."
+  en: "Design and development of an enterprise CRM platform, a bidirectional sync API between a legacy system and the new one using an anti-corruption layer, and a mobile app for store-to-store (TAT) sales operations."
+start: "2026-08"
+end: "2026-11"
+stack: ["Python", "React", "TypeScript", "Flutter", "Dart"]

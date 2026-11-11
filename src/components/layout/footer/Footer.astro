@@ -1,0 +1,85 @@
+---
+import { cvUrl, socialLinks } from '../../../data/social';
+import { toLang, useTranslations } from '../../../i18n/ui';
+
+const t = useTranslations(toLang(Astro.currentLocale));
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+	<div class="footer-inner">
+		<p class="footer-copy">© {year} David Garcia. {t('footer.rights')}</p>
+		<ul class="footer-links">
+			{socialLinks.map((social) => {
+				const external = !social.url.startsWith('mailto');
+				return (
+					<li>
+						<a
+							href={social.url}
+							target={external ? '_blank' : undefined}
+							rel={external ? 'noopener noreferrer' : undefined}
+						>
+							{social.name}
+						</a>
+					</li>
+				);
+			})}
+			<li>
+				<a href={cvUrl} download="David-Garcia-CV.pdf" type="application/pdf">{t('cv.download')}</a>
+			</li>
+		</ul>
+	</div>
+</footer>
+
+<style>
+	.footer {
+		border-top: 1px solid var(--border-light);
+		margin-top: 2rem;
+	}
+
+	.footer-inner {
+		max-width: 800px;
+		margin: 0 auto;
+		/* Bottom padding keeps the text clear of the fixed theme/language buttons. */
+		padding: 2rem 1.5rem 6rem;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1rem;
+		text-align: center;
+	}
+
+	.footer-copy {
+		font-size: 0.85rem;
+		color: var(--text-secondary);
+	}
+
+	.footer-links {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: 0.5rem 1.5rem;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.footer-links a {
+		font-size: 0.85rem;
+		font-weight: 500;
+		color: var(--text-tertiary);
+	}
+
+	.footer-links a:hover {
+		color: var(--text-primary);
+	}
+
+	@media (min-width: 768px) {
+		.footer-inner {
+			flex-direction: row;
+			justify-content: space-between;
+			padding: 2rem 2rem 2.5rem;
+			text-align: left;
+		}
+	}
+</style>

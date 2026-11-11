@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import { toLang, useTranslations } from '../../../i18n/ui';
-import { socialLinks } from '../../../data/social';
+import { cvUrl, socialLinks } from '../../../data/social';
 import profilePhoto from '../../../assets/photo.webp';
 
 const lang = toLang(Astro.currentLocale);
@@ -30,6 +30,10 @@ const t = useTranslations(lang);
 						set:html={social.icon} 
 					/>
 				))}
+				<a href={cvUrl} class="cv-btn" download="David-Garcia-CV.pdf" type="application/pdf">
+					<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+					{t('cv.download')}
+				</a>
 			</div>
 		</div>
 		
@@ -112,6 +116,8 @@ const t = useTranslations(lang);
 
 	.social-links {
 		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
 		gap: 0.75rem;
 		margin-top: 0.5rem;
 	}
@@ -126,6 +132,25 @@ const t = useTranslations(lang);
 		border-radius: 0.5rem;
 		font-size: 1.5rem;
 		transition: all 0.2s ease;
+	}
+
+	.cv-btn {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.5rem;
+		margin-left: 0.25rem;
+		padding: 0.45rem 1rem;
+		border-radius: 999px;
+		font-size: 0.9rem;
+		font-weight: 600;
+		color: var(--bg-primary);
+		background-color: var(--text-primary);
+		transition: transform 0.2s ease, filter 0.2s ease;
+	}
+
+	.cv-btn:hover {
+		transform: translateY(-1px);
+		filter: brightness(1.1);
 	}
 
 	.social-icon:hover {

@@ -12,7 +12,7 @@ import modalMedia from '../assets/captures/espacio_compartido/modal_media.webp';
 import epamSysMg from '../assets/captures/sistema_gestion_epam/epam_sys_mg.webp';
 import resumenEpamSys from '../assets/captures/sistema_gestion_epam/resumen_epam_sys.webp';
 import epamIotApp from '../assets/captures/sistema_iot_epam/epam_iot_app.webp';
-import epamIotResumen from '../assets/captures/sistema_iot_epam/epam_iot_resumen.png';
+import epamIotResumen from '../assets/captures/sistema_iot_epam/epam_iot_resumen.webp';
 
 export const projectsData = [
 	{

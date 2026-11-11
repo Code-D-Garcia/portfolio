@@ -1,11 +1,11 @@
 ---
-import { getLangFromUrl, useTranslations } from '../../../i18n/ui';
+import { toLang, useTranslations } from '../../../i18n/ui';
 
-const lang = getLangFromUrl(Astro.url);
+const lang = toLang(Astro.currentLocale);
 const t = useTranslations(lang);
 
 const isHome = Astro.url.pathname === `/${lang}` || Astro.url.pathname === `/${lang}/`;
-const homePrefix = isHome ? '' : `/${lang}`;
+const homePrefix = isHome ? "" : `/${lang}/`;
 ---
 <nav class="navbar" id="navbar">
 	<div class="navbar-header">

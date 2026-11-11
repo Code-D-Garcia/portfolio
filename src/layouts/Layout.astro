@@ -1,6 +1,6 @@
 ---
 import { ClientRouter } from 'astro:transitions';
-import { getLangFromUrl, useTranslations, defaultLang } from '../i18n/ui';
+import { toLang, useTranslations, defaultLang } from '../i18n/ui';
 import ThemeToggle from '../components/ui/theme-toggle/ThemeToggle.astro';
 import LanguageSwitcher from '../components/ui/language-switcher/LanguageSwitcher.astro';
 import '@fontsource-variable/inter';
@@ -11,7 +11,7 @@ interface Props {
 }
 
 const { title } = Astro.props;
-const lang = getLangFromUrl(Astro.url);
+const lang = toLang(Astro.currentLocale);
 const t = useTranslations(lang);
 
 const currentPath = Astro.url.pathname.replace(`/${lang}`, '');

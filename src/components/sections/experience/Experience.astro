@@ -1,28 +1,33 @@
 ---
-import { getLangFromUrl, useTranslations, type UIKeys } from '../../../i18n/ui';
-import { experienceData } from '../../../data/experience';
+import { getCollection } from 'astro:content';
+import { formatYearMonth, toLang, useTranslations } from '../../../i18n/ui';
 
-const lang = getLangFromUrl(Astro.url);
+const lang = toLang(Astro.currentLocale);
 const t = useTranslations(lang);
+
+// Most recent first.
+const jobs = (await getCollection('experience')).sort((a, b) => b.data.start.localeCompare(a.data.start));
 ---
 <section id="experience" class="experience-section">
 	<h2 class="section-title">{t('experience.title')}</h2>
-	
+
 	<div class="experience-timeline">
-		{experienceData.map(exp => (
+		{jobs.map(({ data: job }) => (
 			<article class="experience-item">
 				<div class="timeline-dot"></div>
 				<div class="experience-content">
 					<div class="experience-header">
-						<h3 class="experience-role">{t(`experience.${exp.id}.role` as UIKeys)}</h3>
-						<span class="experience-date">{t(`experience.${exp.id}.date` as UIKeys)}</span>
+						<h3 class="experience-role">{job.role[lang]}</h3>
+						<span class="experience-date">
+							{formatYearMonth(job.start, lang)} - {job.end ? formatYearMonth(job.end, lang) : t('experience.present')}
+						</span>
 					</div>
-					<h4 class="experience-company">{t(`experience.${exp.id}.company` as UIKeys)}</h4>
-					<p class="experience-description">{t(`experience.${exp.id}.desc` as UIKeys)}</p>
+					<h4 class="experience-company">{job.company}</h4>
+					<p class="experience-description">{job.description[lang]}</p>
 
-					{exp.stack && exp.stack.length > 0 && (
+					{job.stack.length > 0 && (
 						<div class="experience-stack">
-							{exp.stack.map(tech => (
+							{job.stack.map((tech) => (
 								<span class="stack-tag">{tech}</span>
 							))}
 						</div>

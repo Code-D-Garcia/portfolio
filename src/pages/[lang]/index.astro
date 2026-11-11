@@ -6,15 +6,9 @@ import Stack from '../../components/sections/stack/Stack.astro';
 import Experience from '../../components/sections/experience/Experience.astro';
 import Education from '../../components/sections/education/Education.astro';
 import Projects from '../../components/sections/projects/Projects.astro';
+import { getLangStaticPaths } from '../../i18n/ui';
 
-export function getStaticPaths() {
-  return [
-    { params: { lang: 'es' } },
-    { params: { lang: 'en' } },
-  ];
-}
-
-const { lang } = Astro.params;
+export const getStaticPaths = getLangStaticPaths;
 ---
 
 <Layout>

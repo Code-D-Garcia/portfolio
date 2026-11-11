@@ -1,0 +1,113 @@
+---
+import { toLang, useTranslations } from '../../../i18n/ui';
+
+interface Props {
+	/** Technologies to offer, in display order. */
+	filters: string[];
+}
+
+const { filters } = Astro.props;
+const t = useTranslations(toLang(Astro.currentLocale));
+---
+
+<div class="filter-container">
+	<span class="filter-label" id="filter-label">{t('projects.filter.title')}</span>
+	<div class="filter-buttons" role="group" aria-labelledby="filter-label">
+		<button class="filter-btn active" data-filter="all" aria-pressed="true">{t('projects.filter.all')}</button>
+		{filters.map((tech) => (
+			<button class="filter-btn" data-filter={tech} aria-pressed="false">{tech}</button>
+		))}
+	</div>
+</div>
+
+<script>
+	function setupFilters() {
+		const buttons = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+		const cards = document.querySelectorAll<HTMLElement>('.project-card[data-stack]');
+
+		buttons.forEach((btn) => {
+			btn.addEventListener('click', () => {
+				buttons.forEach((b) => {
+					b.classList.toggle('active', b === btn);
+					b.setAttribute('aria-pressed', String(b === btn));
+				});
+
+				const filter = btn.dataset.filter;
+				cards.forEach((card) => {
+					const stack: string[] = JSON.parse(card.dataset.stack ?? '[]');
+					const visible = filter === 'all' || stack.includes(filter ?? '');
+
+					if (visible) {
+						card.style.display = 'flex';
+						void card.offsetHeight; // reflow so the transition runs
+						card.style.opacity = '1';
+						card.style.transform = 'scale(1)';
+					} else {
+						card.style.opacity = '0';
+						card.style.transform = 'scale(0.95)';
+						// Hide once the fade-out has finished, unless re-shown meanwhile.
+						setTimeout(() => {
+							if (card.style.opacity === '0') card.style.display = 'none';
+						}, 300);
+					}
+				});
+			});
+		});
+	}
+
+	document.addEventListener('astro:page-load', setupFilters);
+</script>
+
+<style>
+	.filter-container {
+		display: flex;
+		flex-direction: column;
+		gap: 0.75rem;
+		margin-bottom: 2.5rem;
+		align-items: center;
+	}
+
+	.filter-label {
+		font-size: 0.9rem;
+		color: var(--text-secondary);
+		font-weight: 500;
+	}
+
+	.filter-buttons {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		justify-content: center;
+		max-width: 800px;
+	}
+
+	.filter-btn {
+		font-size: 0.8rem;
+		font-weight: 500;
+		color: var(--text-secondary);
+		padding: 0.4rem 0.9rem;
+		border-radius: 20px;
+		background-color: var(--bg-secondary);
+		border: 1px solid var(--border-light);
+		cursor: pointer;
+		transition: all 0.2s ease;
+	}
+
+	.filter-btn:hover {
+		color: var(--text-primary);
+		background-color: var(--bg-tertiary);
+		border-color: var(--border-dark);
+		transform: translateY(-1px);
+	}
+
+	.filter-btn.active {
+		background-color: var(--text-primary);
+		color: var(--bg-primary);
+		border-color: var(--text-primary);
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+	}
+
+	:global(.dark) .filter-btn.active {
+		box-shadow: 0 4px 12px rgba(255, 255, 255, 0.03);
+	}
+</style>

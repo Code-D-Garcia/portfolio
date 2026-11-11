@@ -1,0 +1,11 @@
+order: 5
+title:
+  es: "Sistema IoT - Monitoreo Ambiental (EPAM)"
+  en: "IoT System - Environmental Monitoring (EPAM)"
+description:
+  es: "Sistema IoT para el monitoreo en tiempo real de temperatura y humedad en laboratorios de la EPAM. Permite supervisar condiciones ambientales dentro del laboratorio, gestionar alertas configurables, consultar registros históricos y visualizar datos en tiempo real para el control de los distintos laboratorios de la empresa de tratamiento de agua de Manta (EPAM)."
+  en: "IoT system for real-time temperature and humidity monitoring in EPAM laboratories. It allows supervising environmental conditions inside the laboratory, managing configurable alerts, consulting historical records, and visualizing real-time data to control the different laboratories of the water treatment company of Manta (EPAM)."
+stack: ["Node.js", "Express", "PostgreSQL", "Arduino", "ESP32", "DHT22 Sensor", "Vue", "React Native", "IoT"]
+images:
+  - ../../assets/captures/sistema_iot_epam/epam_iot_resumen.webp
+  - ../../assets/captures/sistema_iot_epam/epam_iot_app.webp

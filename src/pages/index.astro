@@ -1,5 +1,7 @@
 ---
+// Fallback for hosts without vercel.json; Vercel redirects `/` at the edge.
+import { getRelativeLocaleUrl } from 'astro:i18n';
 import { defaultLang } from '../i18n/ui';
 
-return Astro.redirect(`/${defaultLang}/`);
+return Astro.redirect(getRelativeLocaleUrl(defaultLang));
 ---

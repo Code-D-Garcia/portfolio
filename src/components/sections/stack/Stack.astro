@@ -1,10 +1,10 @@
 ---
-import { getLangFromUrl, useTranslations } from '../../../i18n/ui';
+import { toLang, useTranslations } from '../../../i18n/ui';
 import { stackData } from '../../../data/stack';
 import stackDarkSvg from "../../../assets/stack-dark.svg";
 import stackLightSvg from "../../../assets/stack-light.svg";
 
-const lang = getLangFromUrl(Astro.url);
+const lang = toLang(Astro.currentLocale);
 const t = useTranslations(lang);
 ---
 

@@ -1,0 +1,10 @@
+company: EPAM
+role:
+  es: "Desarrollador de software / IoT"
+  en: "Software / IoT Developer"
+description:
+  es: "Desarrollo de una plataforma de monitoreo ambiental basada en IoT, implementando APIs, procesamiento de datos y mecanismos de autenticación."
+  en: "Development of an IoT-based environmental monitoring platform, implementing APIs, data processing, and authentication mechanisms."
+start: "2023-09"
+end: "2024-02"
+stack: ["IoT", "Node.js", "Express", "MongoDB", "Arduino", "ESP32", "DHT22 Sensor"]

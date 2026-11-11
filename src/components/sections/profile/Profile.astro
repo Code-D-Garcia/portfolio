@@ -1,10 +1,10 @@
 ---
 import { Image } from 'astro:assets';
-import { getLangFromUrl, useTranslations } from '../../../i18n/ui';
+import { toLang, useTranslations } from '../../../i18n/ui';
 import { socialLinks } from '../../../data/social';
 import profilePhoto from '../../../assets/photo.webp';
 
-const lang = getLangFromUrl(Astro.url);
+const lang = toLang(Astro.currentLocale);
 const t = useTranslations(lang);
 ---
 <section id="profile" class="profile-section">

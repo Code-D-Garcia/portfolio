@@ -1,0 +1,10 @@
+company: EPAM
+role:
+  es: "Desarrollador backend"
+  en: "Backend Developer"
+description:
+  es: "Desarrollo y mantenimiento de un sistema de gestión interna, incluyendo módulos de usuarios e inventario, pruebas y soporte de aplicaciones."
+  en: "Development and maintenance of an internal management system, including user and inventory modules, testing, and application support."
+start: "2022-11"
+end: "2023-02"
+stack: ["Express", "TypeScript", "React", "Bootstrap", "PostgreSQL"]

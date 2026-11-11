@@ -1,0 +1,10 @@
+company: Blue Minds Spa
+role:
+  es: "Consultor / Desarrollador"
+  en: "Consultant / Developer"
+description:
+  es: "Desarrollo y personalización de módulos para Odoo desde la versión V14 hasta la V18."
+  en: "Development and customization of Odoo modules from version V14 to V18."
+start: "2024-06"
+end: "2026-03"
+stack: ["Odoo", "Python", "JavaScript", "XML", "PostgreSQL", "Docker"]

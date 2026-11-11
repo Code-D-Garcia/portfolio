@@ -1,0 +1,226 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+
+interface Props {
+	images: ImageMetadata[];
+	/** Base alt text; each slide appends its position, e.g. "Title (2/4)". */
+	alt: string;
+}
+
+const { images, alt } = Astro.props;
+const hasControls = images.length > 1;
+---
+
+<div class="carousel" data-carousel data-current-index="0">
+	<div class="carousel-track">
+		{images.map((img, index) => (
+			<div class:list={['carousel-slide', { active: index === 0 }]}>
+				<Image
+					src={img}
+					widths={[400, 720]}
+					sizes="(min-width: 640px) 360px, calc(100vw - 3rem)"
+					alt={hasControls ? `${alt} (${index + 1}/${images.length})` : alt}
+					class="carousel-image"
+					data-zoomable
+					data-full={img.src}
+				/>
+			</div>
+		))}
+	</div>
+
+	{hasControls && (
+		<>
+			<button class="carousel-control prev" aria-label="Previous slide" data-dir="-1">
+				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+			</button>
+			<button class="carousel-control next" aria-label="Next slide" data-dir="1">
+				<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+			</button>
+			<div class="carousel-indicators">
+				{images.map((_, index) => (
+					<button
+						class:list={['carousel-indicator', { active: index === 0 }]}
+						data-slide-to={index}
+						aria-label={`Go to slide ${index + 1}`}
+					></button>
+				))}
+			</div>
+		</>
+	)}
+</div>
+
+<script>
+	/**
+	 * Carousel behaviour. Other scripts (e.g. the image modal) can move a
+	 * carousel by dispatching `carousel:goto` with the slide index as detail.
+	 */
+	type CarouselGotoEvent = CustomEvent<number>;
+
+	function setupCarousel(carousel: HTMLElement) {
+		const slides = carousel.querySelectorAll<HTMLElement>('.carousel-slide');
+		if (slides.length <= 1) return;
+		const indicators = carousel.querySelectorAll<HTMLElement>('.carousel-indicator');
+
+		const current = () => Number(carousel.dataset.currentIndex ?? 0);
+
+		const show = (index: number) => {
+			const next = (index + slides.length) % slides.length;
+			slides.forEach((slide, i) => slide.classList.toggle('active', i === next));
+			indicators.forEach((dot, i) => dot.classList.toggle('active', i === next));
+			carousel.dataset.currentIndex = String(next);
+		};
+
+		carousel.querySelectorAll<HTMLElement>('.carousel-control').forEach((btn) => {
+			btn.addEventListener('click', (e) => {
+				e.stopPropagation();
+				show(current() + Number(btn.dataset.dir));
+			});
+		});
+
+		indicators.forEach((dot) => {
+			dot.addEventListener('click', (e) => {
+				e.stopPropagation();
+				show(Number(dot.dataset.slideTo));
+			});
+		});
+
+		carousel.addEventListener('carousel:goto', (e) => show((e as CarouselGotoEvent).detail));
+
+		let touchStartX = 0;
+		carousel.addEventListener('touchstart', (e) => {
+			touchStartX = e.changedTouches[0].screenX;
+		}, { passive: true });
+		carousel.addEventListener('touchend', (e) => {
+			const delta = e.changedTouches[0].screenX - touchStartX;
+			if (delta < -50) show(current() + 1);
+			if (delta > 50) show(current() - 1);
+		}, { passive: true });
+	}
+
+	// Carousels are part of the swapped page, so their listeners go away with it.
+	document.addEventListener('astro:page-load', () => {
+		document.querySelectorAll<HTMLElement>('[data-carousel]').forEach(setupCarousel);
+	});
+</script>
+
+<style>
+	.carousel {
+		position: relative;
+		width: 100%;
+		aspect-ratio: 16 / 9;
+		overflow: hidden;
+	}
+
+	.carousel-track {
+		width: 100%;
+		height: 100%;
+		position: relative;
+	}
+
+	.carousel-slide {
+		position: absolute;
+		inset: 0;
+		opacity: 0;
+		transition: opacity 0.4s ease-in-out;
+		pointer-events: none;
+		z-index: 1;
+	}
+
+	.carousel-slide.active {
+		opacity: 1;
+		pointer-events: auto;
+		z-index: 2;
+	}
+
+	.carousel-image {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 0.5s ease;
+		cursor: zoom-in;
+	}
+
+	.carousel-control {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		background: rgba(0, 0, 0, 0.4);
+		color: white;
+		border: none;
+		width: 36px;
+		height: 36px;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		z-index: 10;
+		transition: background-color 0.2s ease, opacity 0.2s ease, transform 0.2s ease;
+		opacity: 0;
+	}
+
+	.carousel:hover .carousel-control,
+	.carousel-control:focus-visible {
+		opacity: 1;
+	}
+
+	@media (max-width: 768px) {
+		.carousel-control {
+			opacity: 0.8;
+			width: 32px;
+			height: 32px;
+		}
+	}
+
+	.carousel-control:hover {
+		background: rgba(0, 0, 0, 0.7);
+		transform: translateY(-50%) scale(1.1);
+	}
+
+	.carousel-control:active {
+		transform: translateY(-50%) scale(0.95);
+	}
+
+	.carousel-control.prev {
+		left: 12px;
+	}
+
+	.carousel-control.next {
+		right: 12px;
+	}
+
+	.carousel-indicators {
+		position: absolute;
+		bottom: 12px;
+		left: 50%;
+		transform: translateX(-50%);
+		display: flex;
+		gap: 8px;
+		z-index: 10;
+		background: rgba(0, 0, 0, 0.3);
+		padding: 6px 10px;
+		border-radius: 20px;
+		backdrop-filter: blur(4px);
+	}
+
+	.carousel-indicator {
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: rgba(255, 255, 255, 0.4);
+		border: none;
+		padding: 0;
+		cursor: pointer;
+		transition: background-color 0.2s ease, transform 0.2s ease;
+	}
+
+	.carousel-indicator:hover {
+		background: rgba(255, 255, 255, 0.8);
+	}
+
+	.carousel-indicator.active {
+		background: #ffffff;
+		transform: scale(1.25);
+	}
+</style>

@@ -1,0 +1,14 @@
+order: 3
+title:
+  es: "Chiro - Finanzas Personales"
+  en: "Chiro - Personal Finance"
+description:
+  es: "Aplicación web para la gestión de finanzas personales, con funcionalidades de registro, consulta, actualización y eliminación de gastos e ingresos."
+  en: "Web application for personal finance management, featuring registration, query, update, and deletion of expenses and income."
+stack: ["Spring Boot", "PostgreSQL", "Spring Security", "Hibernate/JPA", "JWT", "React"]
+images:
+  - ../../assets/captures/chiro_resumen.webp
+  - ../../assets/captures/chiro_web.webp
+repo: https://github.com/Code-D-Garcia/personal-expenses-backend
+demo: https://youtu.be/3fWum26r_Cc
+app: https://youtube.com/shorts/L0jcoHum2SA

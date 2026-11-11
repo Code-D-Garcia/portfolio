@@ -1,0 +1,13 @@
+order: 1
+title:
+  es: "Eternal - Workspace Compartido"
+  en: "Eternal - Shared Workspace"
+description:
+  es: "Plataforma web con autenticación y vinculación por código único que permite gestionar de manera compartida o individual videojuegos (con misiones, personajes y eventos), películas, series y recordatorios, controlando los permisos de edición del creador."
+  en: "Web platform with authentication and unique code space linking that allows users to collaboratively or individually manage video games (including quests, characters, and events), movies, series, and reminders, securing editing rights for each creator."
+stack: ["Node.js", "Express", "Prisma", "PostgreSQL", "React", "TypeScript"]
+images:
+  - ../../assets/captures/espacio_compartido/eternal_resumen.webp
+  - ../../assets/captures/espacio_compartido/captura_login.webp
+  - ../../assets/captures/espacio_compartido/captura_videojuegos.webp
+  - ../../assets/captures/espacio_compartido/modal_media.webp

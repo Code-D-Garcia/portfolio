@@ -1,7 +1,7 @@
 ---
-import { getLangFromUrl, languages } from '../../../i18n/ui';
+import { languages, toLang } from '../../../i18n/ui';
 
-const lang = getLangFromUrl(Astro.url);
+const lang = toLang(Astro.currentLocale);
 const currentPath = Astro.url.pathname.replace(`/${lang}`, '');
 ---
 

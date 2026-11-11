@@ -1,0 +1,225 @@
+---
+/**
+ * Full-screen viewer for any `img[data-zoomable]` on the page. Images inside a
+ * `[data-carousel]` are browsable as a group, and the carousel follows along.
+ * Render it once per page.
+ */
+---
+
+<dialog id="image-modal" class="image-modal">
+	<div class="modal-content">
+		<button id="close-modal" class="close-btn" aria-label="Close modal">&times;</button>
+		<button id="modal-prev" class="modal-nav-btn prev hidden" aria-label="Previous image">
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+		</button>
+		<img id="modal-image" src="" alt="" />
+		<button id="modal-next" class="modal-nav-btn next hidden" aria-label="Next image">
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+		</button>
+	</div>
+</dialog>
+
+<script>
+	let pageController: AbortController | undefined;
+
+	function setupImageModal() {
+		// Drop listeners this script put on window for the previous page.
+		pageController?.abort();
+		pageController = new AbortController();
+		const { signal } = pageController;
+
+		const modal = document.getElementById('image-modal') as HTMLDialogElement | null;
+		const modalImg = document.getElementById('modal-image') as HTMLImageElement | null;
+		const closeBtn = document.getElementById('close-modal');
+		const prevBtn = document.getElementById('modal-prev');
+		const nextBtn = document.getElementById('modal-next');
+		if (!modal || !modalImg || !closeBtn || !prevBtn || !nextBtn) return;
+
+		let group: HTMLImageElement[] = [];
+		let index = 0;
+
+		const render = () => {
+			const img = group[index];
+			if (!img) return;
+			modalImg.src = img.dataset.full || img.currentSrc || img.src;
+			modalImg.alt = img.alt;
+			img.closest('[data-carousel]')?.dispatchEvent(new CustomEvent('carousel:goto', { detail: index }));
+		};
+
+		const step = (delta: number) => {
+			if (group.length <= 1) return;
+			index = (index + delta + group.length) % group.length;
+			render();
+		};
+
+		document.querySelectorAll<HTMLImageElement>('img[data-zoomable]').forEach((img) => {
+			img.addEventListener('click', () => {
+				const carousel = img.closest('[data-carousel]');
+				group = carousel
+					? Array.from(carousel.querySelectorAll<HTMLImageElement>('img[data-zoomable]'))
+					: [img];
+				index = group.indexOf(img);
+
+				const multiple = group.length > 1;
+				prevBtn.classList.toggle('hidden', !multiple);
+				nextBtn.classList.toggle('hidden', !multiple);
+
+				render();
+				modal.showModal();
+				document.body.style.overflow = 'hidden';
+			});
+		});
+
+		prevBtn.addEventListener('click', (e) => {
+			e.stopPropagation();
+			step(-1);
+		});
+		nextBtn.addEventListener('click', (e) => {
+			e.stopPropagation();
+			step(1);
+		});
+
+		window.addEventListener('keydown', (e) => {
+			if (!modal.open) return;
+			if (e.key === 'ArrowRight') step(1);
+			else if (e.key === 'ArrowLeft') step(-1);
+		}, { signal });
+
+		let touchStartX = 0;
+		modal.addEventListener('touchstart', (e) => {
+			touchStartX = e.changedTouches[0].screenX;
+		}, { passive: true });
+		modal.addEventListener('touchend', (e) => {
+			const delta = e.changedTouches[0].screenX - touchStartX;
+			if (delta < -50) step(1);
+			if (delta > 50) step(-1);
+		}, { passive: true });
+
+		closeBtn.addEventListener('click', () => modal.close());
+
+		// Clicking the backdrop (outside the dialog box) closes it.
+		modal.addEventListener('click', (e) => {
+			const rect = modal.getBoundingClientRect();
+			const inside = rect.top <= e.clientY && e.clientY <= rect.bottom
+				&& rect.left <= e.clientX && e.clientX <= rect.right;
+			if (!inside) modal.close();
+		});
+
+		modal.addEventListener('close', () => {
+			document.body.style.overflow = '';
+		});
+	}
+
+	document.addEventListener('astro:page-load', setupImageModal);
+</script>
+
+<style>
+	.image-modal {
+		border: none;
+		background: transparent;
+		padding: 0;
+		margin: auto;
+		overflow: visible;
+		max-width: 90vw;
+		max-height: 90vh;
+	}
+
+	.image-modal:not([open]) {
+		display: none;
+	}
+
+	.image-modal::backdrop {
+		background: rgba(0, 0, 0, 0.85);
+		backdrop-filter: blur(5px);
+	}
+
+	.modal-content {
+		position: relative;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+
+	#modal-image {
+		max-width: 90vw;
+		max-height: 90vh;
+		object-fit: contain;
+		border-radius: 8px;
+		box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+	}
+
+	.close-btn {
+		position: absolute;
+		top: -2.5rem;
+		right: 0;
+		background: none;
+		border: none;
+		color: white;
+		font-size: 3rem;
+		cursor: pointer;
+		line-height: 1;
+		transition: transform 0.2s;
+		z-index: 10;
+		text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+	}
+
+	.close-btn:hover {
+		transform: scale(1.1);
+	}
+
+	.modal-nav-btn {
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		background: rgba(0, 0, 0, 0.5);
+		border: none;
+		color: white;
+		width: 48px;
+		height: 48px;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		z-index: 12;
+		transition: background-color 0.2s, transform 0.2s, opacity 0.2s;
+		backdrop-filter: blur(4px);
+	}
+
+	.modal-nav-btn:hover {
+		background: rgba(0, 0, 0, 0.8);
+		transform: translateY(-50%) scale(1.1);
+	}
+
+	.modal-nav-btn:active {
+		transform: translateY(-50%) scale(0.95);
+	}
+
+	.modal-nav-btn.prev {
+		left: -4rem;
+	}
+
+	.modal-nav-btn.next {
+		right: -4rem;
+	}
+
+	@media (max-width: 1024px) {
+		.modal-nav-btn.prev {
+			left: 1rem;
+		}
+
+		.modal-nav-btn.next {
+			right: 1rem;
+		}
+
+		.modal-nav-btn {
+			width: 40px;
+			height: 40px;
+			background: rgba(0, 0, 0, 0.6);
+		}
+	}
+
+	.modal-nav-btn.hidden {
+		display: none;
+	}
+</style>

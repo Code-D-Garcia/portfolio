@@ -1,0 +1,11 @@
+order: 6
+title:
+  es: "Sistema de Gestión - Laboratorio de tratamiento de Agua (EPAM)"
+  en: "Management System - Water Treatment Laboratory (EPAM)"
+description:
+  es: "Sistema de gestión desarrollado para centralizar los procesos de un laboratorio especializado, integrando módulos para la administración de usuarios, inventario, clientes, documentos, costos y activos. La plataforma permite gestionar la información del laboratorio y automatizar tareas que anteriormente se realizaban de forma manual."
+  en: "Management system developed to centralize the processes of a specialized laboratory, integrating modules for user administration, inventory, clients, documents, costs, and assets. The platform allows managing laboratory information and automating tasks previously done manually."
+stack: ["Node.js", "Express", "PostgreSQL", "React", "TypeScript"]
+images:
+  - ../../assets/captures/sistema_gestion_epam/resumen_epam_sys.webp
+  - ../../assets/captures/sistema_gestion_epam/epam_sys_mg.webp

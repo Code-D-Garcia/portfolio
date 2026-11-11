@@ -3,6 +3,7 @@ export const languages = {
   en: 'English',
 };
 
+// Keep in sync with `i18n` in astro.config.mjs.
 export const defaultLang = 'en';
 
 export const ui = {
@@ -23,35 +24,12 @@ export const ui = {
     'projects.filter.all': 'Todos',
     'projects.more': 'Ver todos los proyectos ➔',
     'projects.back': 'Volver al inicio',
-    'projects.epam_iot.title': 'Sistema IoT - Monitoreo Ambiental (EPAM)',
-    'projects.epam_iot.desc': 'Sistema IoT para el monitoreo en tiempo real de temperatura y humedad en laboratorios de la EPAM. Permite supervisar condiciones ambientales dentro del laboratorio, gestionar alertas configurables, consultar registros históricos y visualizar datos en tiempo real para el control de los distintos laboratorios de la empresa de tratamiento de agua de Manta (EPAM).',
-    'projects.epam.title': 'Sistema de Gestión - Laboratorio de tratamiento de Agua (EPAM)',
-    'projects.epam.desc': 'Sistema de gestión desarrollado para centralizar los procesos de un laboratorio especializado, integrando módulos para la administración de usuarios, inventario, clientes, documentos, costos y activos. La plataforma permite gestionar la información del laboratorio y automatizar tareas que anteriormente se realizaban de forma manual.',
-    'projects.eternal.title': 'Eternal - Workspace Compartido',
-    'projects.eternal.desc': 'Plataforma web con autenticación y vinculación por código único que permite gestionar de manera compartida o individual videojuegos (con misiones, personajes y eventos), películas, series y recordatorios, controlando los permisos de edición del creador.',
-    'projects.chiro.title': 'Chiro - Finanzas Personales',
-    'projects.chiro.desc': 'Aplicación web para la gestión de finanzas personales, con funcionalidades de registro, consulta, actualización y eliminación de gastos e ingresos.',
-    'projects.groovy.title': 'Groovy Overlay para OBS',
-    'projects.groovy.desc': 'Sistema compuesto por una extensión de Chrome y un servidor Node.js que captura la canción actual del Media Request de StreamElements y la muestra en tiempo real en un overlay de OBS.',
-    'projects.polmail.title': 'PolMail - Bot de Soporte',
-    'projects.polmail.desc': 'Bot de soporte para Discord creado para la comunidad del Streamer Polispol1. Cuenta con un dashboard para el registro de tickets y la configuración del bot.',
     'projects.link.code': 'Código ↗',
-    'projects.link.visit': 'Visitar ↗',
+    'projects.link.demo': 'Demo ↗',
     'projects.link.app': 'App Móvil ↗',
     'projects.private': 'Proyecto Privado',
     'experience.title': 'Experiencia Profesional',
-    'experience.blueminds.role': 'Consultor / Desarrollador',
-    'experience.blueminds.company': 'Blue Minds Spa',
-    'experience.blueminds.date': 'Junio 2024 - Marzo 2026',
-    'experience.blueminds.desc': 'Desarrollo y personalización de módulos para Odoo desde la versión V14 hasta la V18.',
-    'experience.epam_iot.role': 'Desarrollador de software / IoT',
-    'experience.epam_iot.company': 'EPAM',
-    'experience.epam_iot.date': 'Septiembre 2023 - Febrero 2024',
-    'experience.epam_iot.desc': 'Desarrollo de una plataforma de monitoreo ambiental basada en IoT, implementando APIs, procesamiento de datos y mecanismos de autenticación.',
-    'experience.epam_backend.role': 'Desarrollador backend',
-    'experience.epam_backend.company': 'EPAM',
-    'experience.epam_backend.date': 'Noviembre 2022 - Febrero 2023',
-    'experience.epam_backend.desc': 'Desarrollo y mantenimiento de un sistema de gestión interna, incluyendo módulos de usuarios e inventario, pruebas y soporte de aplicaciones.',
+    'experience.present': 'Actualidad',
     'education.title': 'Educación',
     'education.uni.degree': 'Ingeniero en Tecnologías de la Información y Comunicaciones',
     'education.uni.name': 'Universidad Laica Eloy Alfaro de Manabí',
@@ -74,35 +52,12 @@ export const ui = {
     'projects.filter.all': 'All',
     'projects.more': 'View all projects ➔',
     'projects.back': 'Back to Home',
-    'projects.epam_iot.title': 'IoT System - Environmental Monitoring (EPAM)',
-    'projects.epam_iot.desc': 'IoT system for real-time temperature and humidity monitoring in EPAM laboratories. It allows supervising environmental conditions inside the laboratory, managing configurable alerts, consulting historical records, and visualizing real-time data to control the different laboratories of the water treatment company of Manta (EPAM).',
-    'projects.epam.title': 'Management System - Water Treatment Laboratory (EPAM)',
-    'projects.epam.desc': 'Management system developed to centralize the processes of a specialized laboratory, integrating modules for user administration, inventory, clients, documents, costs, and assets. The platform allows managing laboratory information and automating tasks previously done manually.',
-    'projects.eternal.title': 'Eternal - Shared Workspace',
-    'projects.eternal.desc': 'Web platform with authentication and unique code space linking that allows users to collaboratively or individually manage video games (including quests, characters, and events), movies, series, and reminders, securing editing rights for each creator.',
-    'projects.chiro.title': 'Chiro - Personal Finance',
-    'projects.chiro.desc': 'Web application for personal finance management, featuring registration, query, update, and deletion of expenses and income.',
-    'projects.groovy.title': 'Groovy Overlay for OBS',
-    'projects.groovy.desc': 'System composed of a Chrome extension and a Node.js server that captures the current song from the StreamElements Media Request and displays it in real-time on an OBS overlay.',
-    'projects.polmail.title': 'PolMail - Support Bot',
-    'projects.polmail.desc': 'Discord support bot created for the community of Streamer Polispol1. It includes a dashboard for ticket registration and bot configuration.',
     'projects.link.code': 'Code ↗',
-    'projects.link.visit': 'Visit ↗',
+    'projects.link.demo': 'Demo ↗',
     'projects.link.app': 'Mobile App ↗',
     'projects.private': 'Private Project',
     'experience.title': 'Professional Experience',
-    'experience.blueminds.role': 'Consultant / Developer',
-    'experience.blueminds.company': 'Blue Minds Spa',
-    'experience.blueminds.date': 'June 2024 - March 2026',
-    'experience.blueminds.desc': 'Development and customization of Odoo modules from version V14 to V18.',
-    'experience.epam_iot.role': 'Software / IoT Developer',
-    'experience.epam_iot.company': 'EPAM',
-    'experience.epam_iot.date': 'September 2023 - February 2024',
-    'experience.epam_iot.desc': 'Development of an IoT-based environmental monitoring platform, implementing APIs, data processing, and authentication mechanisms.',
-    'experience.epam_backend.role': 'Backend Developer',
-    'experience.epam_backend.company': 'EPAM',
-    'experience.epam_backend.date': 'November 2022 - February 2023',
-    'experience.epam_backend.desc': 'Development and maintenance of an internal management system, including user and inventory modules, testing, and application support.',
+    'experience.present': 'Present',
     'education.title': 'Education',
     'education.uni.degree': 'Information and Communications Technology Engineer',
     'education.uni.name': 'Universidad Laica Eloy Alfaro de Manabí',
@@ -110,16 +65,29 @@ export const ui = {
   },
 } as const;
 
-export type UIKeys = keyof typeof ui[typeof defaultLang];
+export type Lang = keyof typeof ui;
+export type UIKey = keyof (typeof ui)[typeof defaultLang];
 
-export function getLangFromUrl(url: URL) {
-  const [, lang] = url.pathname.split('/');
-  if (lang in ui) return lang as keyof typeof ui;
-  return defaultLang;
+/** Narrow `Astro.currentLocale` (a plain string) to a supported language. */
+export function toLang(locale: string | undefined): Lang {
+  return locale && locale in ui ? (locale as Lang) : defaultLang;
 }
 
-export function useTranslations(lang: keyof typeof ui) {
-  return function t(key: keyof typeof ui[typeof defaultLang]) {
+export function useTranslations(lang: Lang) {
+  return function t(key: UIKey): string {
     return ui[lang][key] || ui[defaultLang][key];
-  }
+  };
+}
+
+/** `getStaticPaths` result for pages under `src/pages/[lang]/`. */
+export function getLangStaticPaths() {
+  return Object.keys(languages).map((lang) => ({ params: { lang } }));
+}
+
+/** Format a `YYYY-MM` string as e.g. "Junio 2024" / "June 2024". */
+export function formatYearMonth(value: string, lang: Lang): string {
+  const [year, month] = value.split('-').map(Number);
+  const name = new Intl.DateTimeFormat(lang, { month: 'long', timeZone: 'UTC' })
+    .format(new Date(Date.UTC(year, month - 1, 1)));
+  return `${name.charAt(0).toUpperCase()}${name.slice(1)} ${year}`;
 }

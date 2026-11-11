@@ -1,0 +1,12 @@
+order: 4
+title:
+  es: "Groovy Overlay para OBS"
+  en: "Groovy Overlay for OBS"
+description:
+  es: "Sistema compuesto por una extensión de Chrome y un servidor Node.js que captura la canción actual del Media Request de StreamElements y la muestra en tiempo real en un overlay de OBS."
+  en: "System composed of a Chrome extension and a Node.js server that captures the current song from the StreamElements Media Request and displays it in real-time on an OBS overlay."
+stack: ["Node.js", "Express", "WebSockets", "Chrome Extension", "JavaScript", "HTML5", "CSS3"]
+images:
+  - ../../assets/captures/groovy_overlay.webp
+repo: https://github.com/Code-D-Garcia/groovy-overlay
+demo: https://youtu.be/kTuhsJCAX_E

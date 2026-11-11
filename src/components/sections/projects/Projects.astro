@@ -629,6 +629,11 @@ const displayedProjects = (limit ? projectsData.slice(0, limit) : projectsData).
 
 <script is:inline>
 	document.addEventListener('astro:page-load', () => {
+		// Drop listeners registered on window by the previous page
+		window.__projectsController?.abort();
+		const pageController = new AbortController();
+		window.__projectsController = pageController;
+
 		// Filtering logic
 		const filterButtons = document.querySelectorAll('.filter-btn');
 		const projectCards = document.querySelectorAll('.project-card');
@@ -771,7 +776,7 @@ const displayedProjects = (limit ? projectsData.slice(0, limit) : projectsData).
 				} else if (e.key === 'ArrowLeft') {
 					prevModalImage();
 				}
-			});
+			}, { signal: pageController.signal });
 
 			// Touch gestures inside the modal
 			let modalTouchStartX = 0;

@@ -1,6 +1,6 @@
 ---
 import { ClientRouter } from 'astro:transitions';
-import { getLangFromUrl, useTranslations } from '../i18n/ui';
+import { getLangFromUrl, useTranslations, defaultLang } from '../i18n/ui';
 import ThemeToggle from '../components/ui/theme-toggle/ThemeToggle.astro';
 import LanguageSwitcher from '../components/ui/language-switcher/LanguageSwitcher.astro';
 import '../styles/global.css';
@@ -71,7 +71,7 @@ const pageTitle = title || t('site.title');
 		
 		<link rel="alternate" hreflang="es" href={`/es${currentPath}`} />
 		<link rel="alternate" hreflang="en" href={`/en${currentPath}`} />
-		<link rel="alternate" hreflang="x-default" href={`/es${currentPath}`} />
+		<link rel="alternate" hreflang="x-default" href={`/${defaultLang}${currentPath}`} />
 
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

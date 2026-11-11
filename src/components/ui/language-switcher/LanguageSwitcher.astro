@@ -22,11 +22,13 @@ const currentPath = Astro.url.pathname.replace(`/${lang}`, '');
 </div>
 
 <script>
+  import { defaultLang, languages } from '../../../i18n/ui';
+
   document.addEventListener('astro:page-load', () => {
     // Determine current language from URL
     let [, currentLang] = window.location.pathname.split('/');
-    if (!currentLang || (currentLang !== 'es' && currentLang !== 'en')) {
-      currentLang = 'es'; // default language
+    if (!currentLang || !(currentLang in languages)) {
+      currentLang = defaultLang;
     }
     
     const buttons = document.querySelectorAll('.lang-btn');

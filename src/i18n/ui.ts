@@ -3,7 +3,7 @@ export const languages = {
   en: 'English',
 };
 
-export const defaultLang = 'es';
+export const defaultLang = 'en';
 
 export const ui = {
   es: {
@@ -13,7 +13,7 @@ export const ui = {
     'nav.experience': 'Experiencia',
     'nav.education': 'Educación',
     'site.title': 'David Garcia | Desarrollador Backend',
-    'site.description': 'Backend Portfolio of David Garcia',
+    'site.description': 'Portafolio de David Garcia, desarrollador backend especializado en Java, Spring Boot y Node.js.',
     'profile.role': 'Desarrollador Backend',
     'profile.bio': 'Enfocado en Java y Spring Boot desarrollando API REST y aplicaciones orientadas a datos. Manejo de Hibernate/JPA con PostgreSQL y Spring Security. Desplegando aplicaciones con Docker y controlando las versiones con Git. Adicionalmente, complemento mi perfil con conocimiento y experiencia en Node.js/Express y React, así como Python para el desarrollo y personalización de módulos en Odoo, implementando funcionalidades e integraciones orientadas a procesos de negocio.',
     'stack.title': 'Stack Tecnológico',
@@ -64,9 +64,9 @@ export const ui = {
     'nav.experience': 'Experience',
     'nav.education': 'Education',
     'site.title': 'David Garcia | Backend Developer',
-    'site.description': 'Backend Portfolio of David Garcia',
+    'site.description': 'Portfolio of David Garcia, a backend developer specializing in Java, Spring Boot and Node.js.',
     'profile.role': 'Backend Developer',
-    'profile.bio': 'I specialize in Java and Spring Boot, developing REST APIs and data-oriented applications. Proficient in Hibernate/JPA with PostgreSQL and Spring Security. I deploy applications using Docker and manage versions with Git. Additionally, Complement my profile with knowledge and experience in Node.js/Express and React, as well as Python for the development and customization of Odoo modules, implementing functionalities and integrations oriented to business processes.',
+    'profile.bio': 'I specialize in Java and Spring Boot, developing REST APIs and data-oriented applications. Proficient in Hibernate/JPA with PostgreSQL and Spring Security. I deploy applications using Docker and manage versions with Git. Additionally, I complement my profile with knowledge and experience in Node.js/Express and React, as well as Python for the development and customization of Odoo modules, implementing functionalities and integrations oriented to business processes.',
     'stack.title': 'Tech Stack',
     'projects.title': 'Featured Projects',
     'projects.all.title': 'All Projects',
@@ -91,7 +91,7 @@ export const ui = {
     'projects.link.app': 'Mobile App ↗',
     'projects.private': 'Private Project',
     'experience.title': 'Professional Experience',
-    'experience.blueminds.role': 'Consultor / Developer',
+    'experience.blueminds.role': 'Consultant / Developer',
     'experience.blueminds.company': 'Blue Minds Spa',
     'experience.blueminds.date': 'June 2024 - March 2026',
     'experience.blueminds.desc': 'Development and customization of Odoo modules from version V14 to V18.',

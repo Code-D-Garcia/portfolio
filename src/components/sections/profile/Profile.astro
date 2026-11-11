@@ -1,11 +1,16 @@
 ---
 import { Image } from 'astro:assets';
+import { getCollection } from 'astro:content';
 import { toLang, useTranslations } from '../../../i18n/ui';
 import { cvUrl, socialLinks } from '../../../data/social';
+import { experienceYears } from '../../../utils/experience';
 import profilePhoto from '../../../assets/photo.webp';
 
 const lang = toLang(Astro.currentLocale);
 const t = useTranslations(lang);
+
+// `{years}` in the bio is filled from the experience entries.
+const bio = t('profile.bio').replace('{years}', String(experienceYears(await getCollection('experience'))));
 ---
 <section id="profile" class="profile-section">
 	<div class="profile-wrapper">
@@ -16,7 +21,7 @@ const t = useTranslations(lang);
 			</div>
 			
 			<p class="bio">
-				{t('profile.bio')}
+				{bio}
 			</p>
 
 			<div class="social-links">

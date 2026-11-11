@@ -12,7 +12,7 @@ import { languages, ui, type Lang } from '../src/i18n/ui.ts';
 const WIDTH = 1200;
 const HEIGHT = 630;
 const NAME = 'David Garcia';
-const STACK = 'Java · Spring Boot · Node.js · PostgreSQL';
+const STACK = 'Java · Spring Boot · Python · Node.js · PostgreSQL';
 
 const root = new URL('../', import.meta.url);
 const fontFile = (weight: number) =>
@@ -50,7 +50,7 @@ function card(lang: Lang): Node {
 			h('div', { fontSize: 84, fontWeight: 700, lineHeight: 1.05 }, NAME),
 			h('div', { fontSize: 44, color: '#a1a1aa', marginTop: 16 }, role),
 			h('div', { width: 120, height: 6, backgroundColor: '#bd93f9', borderRadius: 3, margin: '40px 0 28px' }),
-			h('div', { fontSize: 28, color: '#8be9fd' }, STACK),
+			h('div', { fontSize: 25, color: '#8be9fd' }, STACK),
 		]),
 		h('img', { width: 320, height: 320, flexShrink: 0, marginLeft: 48, borderRadius: 160, border: '6px solid #27272a' }, undefined, {
 			src: photoSrc,

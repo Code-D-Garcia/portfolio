@@ -19,7 +19,9 @@ const t = useTranslations(lang);
 			stackData.map((tech) => (
 				<div class="tech-item" title={tech.name}>
 					<img
-						src={tech.icon}
+						src={tech.icon.src}
+						width={tech.icon.width}
+						height={tech.icon.height}
 						alt={tech.name}
 						loading="lazy"
 						class="tech-icon"

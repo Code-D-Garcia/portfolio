@@ -1,40 +1,50 @@
+import javaIcon from '../assets/icons/java.svg';
+import springIcon from '../assets/icons/spring.svg';
+import javascriptIcon from '../assets/icons/javascript.svg';
+import nodejsIcon from '../assets/icons/nodejs.svg';
+import pythonIcon from '../assets/icons/python.svg';
+import postgresqlIcon from '../assets/icons/postgresql.svg';
+import sqlIcon from '../assets/icons/sql.svg';
+import mongodbIcon from '../assets/icons/mongodb.svg';
+import odooIcon from '../assets/icons/odoo.svg';
+
 export const stackData = [
 	{
 		name: "Java",
-		icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg",
+		icon: javaIcon,
 	},
 	{
 		name: "Spring Boot",
-		icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/spring/spring-original.svg",
+		icon: springIcon,
 	},
 	{
 		name: "JavaScript",
-		icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg",
+		icon: javascriptIcon,
 	},
 	{
 		name: "Node.js",
-		icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg",
+		icon: nodejsIcon,
 	},
 	{
 		name: "Python",
-		icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg",
+		icon: pythonIcon,
 	},
 	{
 		name: "Odoo",
-		icon: "https://odoocdn.com/openerp_website/static/src/img/assets/svg/odoo_logo.svg",
+		icon: odooIcon,
 		hideName: true,
 		iconWidth: "64px",
 	},
 	{
 		name: "PostgreSQL",
-		icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg",
+		icon: postgresqlIcon,
 	},
 	{
 		name: "SQL",
-		icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/azuresqldatabase/azuresqldatabase-original.svg",
+		icon: sqlIcon,
 	},
 	{
 		name: "MongoDB",
-		icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg",
+		icon: mongodbIcon,
 	},
 ];

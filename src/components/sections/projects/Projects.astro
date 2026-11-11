@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import { getLangFromUrl, useTranslations, type UIKeys } from '../../../i18n/ui';
 import { projectsData } from '../../../data/projects';
 
@@ -84,7 +85,14 @@ const displayedProjects = (limit ? projectsData.slice(0, limit) : projectsData).
 							<div class="carousel-track">
 								{images.map((img: any, index: number) => (
 									<div class={`carousel-slide ${index === 0 ? 'active' : ''}`} data-index={index}>
-										<img src={img.src || img} alt={t(`projects.${project.id}.title` as any)} class="project-image" loading="lazy" />
+										<Image
+											src={img}
+											widths={[400, 720]}
+											sizes="(min-width: 640px) 360px, calc(100vw - 3rem)"
+											alt={`${t(`projects.${project.id}.title` as UIKeys)} (${index + 1}/${images.length})`}
+											class="project-image"
+											data-full={img.src}
+										/>
 									</div>
 								))}
 							</div>
@@ -682,7 +690,7 @@ const displayedProjects = (limit ? projectsData.slice(0, limit) : projectsData).
 		const updateModalImage = () => {
 			if (modalImagesList.length > 0) {
 				const currentImg = modalImagesList[modalCurrentIndex];
-				modalImg.src = currentImg.src;
+				modalImg.src = currentImg.dataset.full || currentImg.currentSrc || currentImg.src;
 				modalImg.alt = currentImg.alt;
 
 				// Sync the corresponding project's card carousel

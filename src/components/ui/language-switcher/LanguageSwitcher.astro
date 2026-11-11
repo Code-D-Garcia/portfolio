@@ -1,17 +1,21 @@
 ---
-import { languages, toLang } from '../../../i18n/ui';
+import { languages, toLang, useTranslations } from '../../../i18n/ui';
 
 const lang = toLang(Astro.currentLocale);
+const t = useTranslations(lang);
 const currentPath = Astro.url.pathname.replace(`/${lang}`, '');
 ---
 
-<div class="lang-switcher" transition:persist="lang-switcher">
+<nav class="lang-switcher" aria-label={t('a11y.language')}>
   {
     Object.entries(languages).map(([code, label]) => (
       <a
         href={`/${code}${currentPath}`}
         class={`lang-btn ${lang === code ? 'active' : ''}`}
-        aria-label={`Change language to ${label}`}
+        aria-label={label}
+        hreflang={code}
+        lang={code}
+        aria-current={lang === code ? 'true' : undefined}
         data-lang={code}
         onclick="sessionStorage.setItem('scrollPosition', window.scrollY.toString())"
       >
@@ -19,7 +23,7 @@ const currentPath = Astro.url.pathname.replace(`/${lang}`, '');
       </a>
     ))
   }
-</div>
+</nav>
 
 <script>
   import { defaultLang, languages } from '../../../i18n/ui';
@@ -40,11 +44,10 @@ const currentPath = Astro.url.pathname.replace(`/${lang}`, '');
         if (newPath === '') newPath = '/';
         btn.setAttribute('href', `/${code}${newPath === '/' ? '' : newPath}`);
         
-        if (code === currentLang) {
-          btn.classList.add('active');
-        } else {
-          btn.classList.remove('active');
-        }
+        const isCurrent = code === currentLang;
+        btn.classList.toggle('active', isCurrent);
+        if (isCurrent) btn.setAttribute('aria-current', 'true');
+        else btn.removeAttribute('aria-current');
       }
     });
   });

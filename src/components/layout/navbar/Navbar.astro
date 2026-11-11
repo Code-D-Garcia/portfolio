@@ -9,7 +9,7 @@ const homePrefix = isHome ? "" : `/${lang}/`;
 ---
 <nav class="navbar" id="navbar">
 	<div class="navbar-header">
-		<button id="menu-toggle" class="menu-toggle" aria-label="Toggle Menu">
+		<button id="menu-toggle" class="menu-toggle" aria-label={t('a11y.menu')} aria-expanded="false" aria-controls="nav-content">
 			<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
 				<path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
 			</svg>
@@ -39,8 +39,9 @@ const homePrefix = isHome ? "" : `/${lang}/`;
 		menuToggle.parentNode?.replaceChild(newMenuToggle, menuToggle);
 
 		newMenuToggle.addEventListener('click', () => {
-			navContent.classList.toggle('active');
-			navbar.classList.toggle('menu-open');
+			const open = navContent.classList.toggle('active');
+			navbar.classList.toggle('menu-open', open);
+			(newMenuToggle as HTMLElement).setAttribute('aria-expanded', String(open));
 		});
 
 		// Close menu when clicking a link
@@ -51,6 +52,7 @@ const homePrefix = isHome ? "" : `/${lang}/`;
 			newLink.addEventListener('click', () => {
 				navContent.classList.remove('active');
 				navbar.classList.remove('menu-open');
+				(newMenuToggle as HTMLElement).setAttribute('aria-expanded', 'false');
 			});
 		});
 	}

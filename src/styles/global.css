@@ -81,6 +81,39 @@ a {
 	}
 }
 
+/* Visible only when focused with the keyboard. */
+.skip-link {
+	position: fixed;
+	top: 0.75rem;
+	left: 0.75rem;
+	z-index: 2000;
+	padding: 0.6rem 1rem;
+	border-radius: 8px;
+	background-color: var(--text-primary);
+	color: var(--bg-primary);
+	font-weight: 600;
+	transform: translateY(-200%);
+}
+
+.skip-link:focus {
+	transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}
+
 .section-title {
 	font-size: 1rem;
 	font-weight: 600;

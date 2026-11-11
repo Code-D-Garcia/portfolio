@@ -1,6 +1,11 @@
 ---
+import { toLang, useTranslations } from '../../../i18n/ui';
+
+const t = useTranslations(toLang(Astro.currentLocale));
+
 /**
- * Full-screen viewer for any `img[data-zoomable]` on the page. Images inside a
+ * Full-screen viewer for any `button[data-zoom]` (wrapping an
+ * `img[data-zoomable]`) on the page. Images inside a
  * `[data-carousel]` are browsable as a group, and the carousel follows along.
  * Render it once per page.
  */
@@ -8,12 +13,12 @@
 
 <dialog id="image-modal" class="image-modal">
 	<div class="modal-content">
-		<button id="close-modal" class="close-btn" aria-label="Close modal">&times;</button>
-		<button id="modal-prev" class="modal-nav-btn prev hidden" aria-label="Previous image">
+		<button id="close-modal" class="close-btn" aria-label={t('a11y.image.close')}>&times;</button>
+		<button id="modal-prev" class="modal-nav-btn prev hidden" aria-label={t('a11y.image.prev')}>
 			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
 		</button>
 		<img id="modal-image" src="" alt="" />
-		<button id="modal-next" class="modal-nav-btn next hidden" aria-label="Next image">
+		<button id="modal-next" class="modal-nav-btn next hidden" aria-label={t('a11y.image.next')}>
 			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
 		</button>
 	</div>
@@ -52,8 +57,10 @@
 			render();
 		};
 
-		document.querySelectorAll<HTMLImageElement>('img[data-zoomable]').forEach((img) => {
-			img.addEventListener('click', () => {
+		document.querySelectorAll<HTMLButtonElement>('button[data-zoom]').forEach((trigger) => {
+			const img = trigger.querySelector<HTMLImageElement>('img[data-zoomable]');
+			if (!img) return;
+			trigger.addEventListener('click', () => {
 				const carousel = img.closest('[data-carousel]');
 				group = carousel
 					? Array.from(carousel.querySelectorAll<HTMLImageElement>('img[data-zoomable]'))
@@ -107,6 +114,8 @@
 
 		modal.addEventListener('close', () => {
 			document.body.style.overflow = '';
+			// Return focus to the image now showing, which may differ from the one opened.
+			group[index]?.closest<HTMLElement>('button[data-zoom]')?.focus({ preventScroll: true });
 		});
 	}
 

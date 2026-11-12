@@ -17,6 +17,11 @@ const links = [
 	{ href: project.demo, label: t('projects.link.demo') },
 	{ href: project.app, label: t('projects.link.app') },
 ].filter((link): link is { href: string; label: string } => Boolean(link.href));
+
+// Show the first few technologies; the rest collapse into a "+N" tag (filters still use the full list).
+const MAX_TAGS = 5;
+const visibleStack = project.stack.slice(0, MAX_TAGS);
+const hiddenStack = project.stack.slice(MAX_TAGS);
 ---
 
 <article class="project-card panel" data-stack={JSON.stringify(project.stack)}>
@@ -45,7 +50,12 @@ const links = [
 
 	<div class="project-stack-container">
 		<div class="project-stack">
-			{project.stack.map((tech) => <span class="stack-tag">{tech}</span>)}
+			{visibleStack.map((tech) => <span class="stack-tag">{tech}</span>)}
+			{hiddenStack.length > 0 && (
+				<span class="stack-tag stack-more" title={hiddenStack.join(', ')} aria-label={hiddenStack.join(', ')}>
+					+{hiddenStack.length}
+				</span>
+			)}
 		</div>
 	</div>
 </article>
@@ -145,6 +155,12 @@ const links = [
 		display: flex;
 		flex-wrap: wrap;
 		gap: 0.4rem;
+	}
+
+	.stack-more {
+		color: var(--accent);
+		border-style: dashed;
+		cursor: help;
 	}
 
 

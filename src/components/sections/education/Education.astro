@@ -7,103 +7,75 @@ const t = useTranslations(lang);
 <section id="education" class="education-section">
 	<h2 class="section-title">{t('education.title')}</h2>
 	<p class="section-kicker">{t('education.kicker')}</p>
-	
-	<div class="education-timeline">
-		<article class="education-item">
-			<div class="timeline-dot"></div>
-			<div class="education-content panel">
-				<div class="education-header">
-					<h3 class="education-role">{t('education.uni.degree')}</h3>
-					<span class="education-date">{t('education.uni.date')}</span>
-				</div>
-				<h4 class="education-company">{t('education.uni.name')}</h4>
-			</div>
-		</article>
-	</div>
+
+	<article class="education-card panel">
+		<span class="education-icon" aria-hidden="true">
+			<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+		</span>
+		<div class="education-body">
+			<h3 class="education-degree">{t('education.uni.degree')}</h3>
+			<p class="education-meta">
+				<span class="education-school">{t('education.uni.name')}</span>
+				<span class="education-date">{t('education.uni.date')}</span>
+			</p>
+		</div>
+	</article>
 </section>
 
 <style>
-	.education-timeline {
+	.education-card {
+		display: flex;
+		align-items: flex-start;
+		gap: 1rem;
+		padding: 1rem 1.25rem;
+	}
+
+	.education-icon {
+		flex-shrink: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 2.5rem;
+		height: 2.5rem;
+		border: 1px solid var(--border-light);
+		border-radius: var(--radius);
+		background-color: var(--accent-soft);
+		color: var(--accent);
+	}
+
+	.education-body {
 		display: flex;
 		flex-direction: column;
-		gap: 1.25rem;
-		position: relative;
-		padding-left: 1.75rem;
+		gap: 0.3rem;
+		min-width: 0;
 	}
 
-	/* The path between waypoints */
-	.education-timeline::before {
-		content: '';
-		position: absolute;
-		top: 0.5rem;
-		bottom: 0.5rem;
-		left: 0.4rem;
-		width: 0;
-		border-left: 2px dashed var(--border-dark);
-	}
-
-	.education-item {
-		position: relative;
-	}
-
-	/* Waypoint marker */
-	.timeline-dot {
-		position: absolute;
-		left: -1.75rem;
-		top: 1.35rem;
-		width: 0.9rem;
-		height: 0.9rem;
-		background-color: var(--bg-primary);
-		border: 2px solid var(--accent);
-		transform: rotate(45deg);
-		z-index: 1;
-	}
-
-	.education-item:first-child .timeline-dot {
-		background-color: var(--accent);
-	}
-
-	.education-content {
-		display: flex;
-		flex-direction: column;
-		gap: 0.5rem;
-		padding: 1.25rem 1.5rem;
-	}
-
-	.education-header {
-		display: flex;
-		flex-direction: column;
-		gap: 0.25rem;
-	}
-
-	@media (min-width: 560px) {
-		.education-header {
-			flex-direction: row;
-			justify-content: space-between;
-			align-items: baseline;
-			gap: 1rem;
-		}
-	}
-
-	.education-role {
-		font-size: 1.1rem;
+	.education-degree {
+		font-size: 1rem;
 		font-weight: 600;
 		color: var(--text-primary);
 		line-height: 1.4;
 	}
 
+	.education-meta {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		gap: 0.25rem 0.75rem;
+		margin: 0;
+	}
+
+	.education-school {
+		font-size: 0.9rem;
+		font-weight: 500;
+		color: var(--accent);
+	}
+
 	.education-date {
-		flex-shrink: 0;
-		font-size: 0.78rem;
+		font-size: 0.75rem;
 		font-weight: 600;
 		letter-spacing: 0.06em;
 		text-transform: uppercase;
 		color: var(--gold);
-	}
-
-	.education-company {
-		font-size: 0.95rem;
-		font-weight: 500;
-		color: var(--accent);
 	}
 </style>

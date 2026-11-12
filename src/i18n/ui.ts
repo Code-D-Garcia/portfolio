@@ -52,6 +52,10 @@ export const ui = {
     'education.uni.degree': 'Ingeniero en Tecnologías de la Información y Comunicaciones',
     'education.uni.name': 'Universidad Laica Eloy Alfaro de Manabí',
     'education.uni.date': '2018 - 2024',
+    'contact.kicker': '¿Nueva misión?',
+    'contact.title': 'Hablemos',
+    'contact.text': '¿Tienes un proyecto o una oportunidad en mente? Escríbeme y te responderé lo antes posible.',
+    'contact.email': 'Enviar correo',
   },
   en: {
     'a11y.skip': 'Skip to content',
@@ -98,6 +102,10 @@ export const ui = {
     'education.uni.degree': 'Information and Communications Technology Engineer',
     'education.uni.name': 'Universidad Laica Eloy Alfaro de Manabí',
     'education.uni.date': '2018 - 2024',
+    'contact.kicker': 'New quest?',
+    'contact.title': "Let's talk",
+    'contact.text': 'Have a project or an opportunity in mind? Send me a message and I will get back to you as soon as possible.',
+    'contact.email': 'Send an email',
   },
 } as const;
 

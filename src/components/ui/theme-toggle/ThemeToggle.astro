@@ -22,35 +22,21 @@ const t = useTranslations(toLang(Astro.currentLocale));
 
 <style>
   .theme-toggle {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    z-index: 1000;
-    background-color: var(--bg-primary);
+    background-color: transparent;
     border: 1px solid var(--border-light);
-    padding: 0.75rem;
+    padding: 0.4rem;
     cursor: pointer;
     color: var(--text-secondary);
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: var(--radius);
-    transition: all 0.2s ease;
-    box-shadow: var(--shadow);
+    transition: color 0.2s ease, border-color 0.2s ease;
   }
 
   .theme-toggle:hover {
     color: var(--accent);
     border-color: var(--accent);
-    transform: scale(1.05);
-  }
-
-  @media (max-width: 768px) {
-    .theme-toggle {
-      bottom: 1.5rem;
-      right: 1.5rem;
-      padding: 0.6rem;
-    }
   }
 
   :global(html.dark) .sun-icon {
@@ -82,13 +68,13 @@ const t = useTranslations(toLang(Astro.currentLocale));
 
   const initToggle = () => {
     const toggle = document.getElementById("theme-toggle");
-    if (toggle) {
+    // The navbar is re-rendered on each navigation; avoid binding twice to the same button.
+    if (toggle && !toggle.dataset.bound) {
+      toggle.dataset.bound = "true";
       toggle.addEventListener("click", handleToggleClick);
     }
   };
 
-  initToggle();
-  
   document.addEventListener('astro:page-load', initToggle);
 
   window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {

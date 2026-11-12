@@ -1,18 +1,19 @@
 import type { CollectionEntry } from 'astro:content';
 
-/** Months between two `YYYY-MM` values (end exclusive). */
-function monthsBetween(start: string, end: string): number {
-	const [sy, sm] = start.split('-').map(Number);
-	const [ey, em] = end.split('-').map(Number);
-	return (ey - sy) * 12 + (em - sm);
-}
+/** `YYYY-MM` as a month count, for easy subtraction. */
+const toMonths = (value: string) => {
+	const [year, month] = value.split('-').map(Number);
+	return year * 12 + (month - 1);
+};
 
 /**
- * Whole years of professional experience, summing each job's duration so gaps
- * between jobs don't count. A job without `end` counts up to the build date.
+ * Whole years since the first job started, up to the latest end date (or the
+ * build date while a job is current). Gaps between jobs are included.
  */
 export function experienceYears(jobs: CollectionEntry<'experience'>[], now = new Date()): number {
-	const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
-	const months = jobs.reduce((total, { data }) => total + monthsBetween(data.start, data.end ?? today), 0);
-	return Math.floor(months / 12);
+	if (jobs.length === 0) return 0;
+	const today = now.getFullYear() * 12 + now.getMonth();
+	const first = Math.min(...jobs.map(({ data }) => toMonths(data.start)));
+	const last = Math.max(...jobs.map(({ data }) => (data.end ? toMonths(data.end) : today)));
+	return Math.floor((last - first) / 12);
 }

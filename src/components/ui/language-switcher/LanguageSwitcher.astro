@@ -64,21 +64,17 @@ const currentPath = Astro.url.pathname.replace(`/${lang}`, '');
     align-items: center;
     background-color: var(--bg-primary);
     padding: 0.3rem;
-    border-radius: 24px;
+    border-radius: var(--radius);
     border: 1px solid var(--border-light);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow);
     transition: all 0.3s ease;
-  }
-
-  :global(.dark) .lang-switcher {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
   }
 
   .lang-btn {
     font-size: 0.8rem;
     font-weight: 600;
     padding: 0.35rem 0.6rem;
-    border-radius: 20px;
+    border-radius: calc(var(--radius) - 1px);
     color: var(--text-secondary);
     transition: all 0.2s ease;
     text-decoration: none;
@@ -90,8 +86,8 @@ const currentPath = Astro.url.pathname.replace(`/${lang}`, '');
   }
 
   .lang-btn.active {
-    background-color: var(--text-primary);
-    color: var(--bg-primary);
+    background-color: var(--accent);
+    color: var(--on-accent);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
 

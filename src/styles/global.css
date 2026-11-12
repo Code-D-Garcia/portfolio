@@ -1,31 +1,56 @@
+/*
+ * Design tokens. Adventure-journal look: slate panels with a cyan accent and
+ * amber details at night (dark), parchment and ink by day (light).
+ * Every text/background pair below meets WCAG AA (4.5:1) or better.
+ */
 :root {
-	--bg-primary: #dcdcdc;
-	--bg-secondary: #e0dad3;
-	--bg-tertiary: #e1d6e5;
+	/* Parchment */
+	--bg-primary: #f1e9d6;
+	--bg-secondary: #f8f3e6;
+	--bg-tertiary: #e8dec6;
 
-	--text-primary: #000000;
-	--text-secondary: #333332;
-	--text-tertiary: #2641c7;
-	
-	--border-light: #5a84c0;
-	--border-dark: #487d39;
+	--text-primary: #2a2318;
+	--text-secondary: #5d5241;
+	--text-tertiary: #0b6f7a;
+
+	--border-light: #d8caa9;
+	--border-dark: #b9a57c;
+
+	--accent: #0b6f7a;
+	--accent-soft: rgba(11, 111, 122, 0.1);
+	--gold: #94570f;
+	--on-accent: #f8f3e6;
+	--nav-bg: rgba(248, 243, 230, 0.85);
+	--shadow: 0 10px 30px -12px rgba(60, 45, 20, 0.25);
+
+	--font-body: 'Inter Variable', system-ui, sans-serif;
+	--font-display: 'Cinzel Variable', Georgia, serif;
+	--radius: 4px;
 }
 
 :root.dark {
-	--bg-primary: #161616;      
-	--bg-secondary: #18181b;    
-	--bg-tertiary: #27272a;     
-	
-	--text-primary: #fafafa;    
-	--text-secondary: #a1a1aa;  
-	--text-tertiary: #71717a; 
-	
-	--border-light: #27272a;
-	--border-dark: #3f3f46;
+	/* Slate */
+	--bg-primary: #12161a;
+	--bg-secondary: #192026;
+	--bg-tertiary: #222b32;
+
+	--text-primary: #e6ecef;
+	--text-secondary: #9aa8b1;
+	--text-tertiary: #3fd0e0;
+
+	--border-light: #28333b;
+	--border-dark: #3a4852;
+
+	--accent: #3fd0e0;
+	--accent-soft: rgba(63, 208, 224, 0.1);
+	--gold: #e8a33d;
+	--on-accent: #12161a;
+	--nav-bg: rgba(18, 22, 26, 0.85);
+	--shadow: 0 10px 30px -12px rgba(0, 0, 0, 0.6);
 }
 
 html {
-	font-family: 'Inter Variable', system-ui, sans-serif;
+	font-family: var(--font-body);
 	background-color: var(--bg-primary);
 	color: var(--text-primary);
 	scroll-behavior: smooth;
@@ -45,6 +70,11 @@ body {
 	box-sizing: border-box;
 }
 
+::selection {
+	background-color: var(--accent);
+	color: var(--on-accent);
+}
+
 h1, h2, h3, h4, h5, h6, p {
 	margin: 0;
 	font-weight: normal;
@@ -53,7 +83,12 @@ h1, h2, h3, h4, h5, h6, p {
 a {
 	color: inherit;
 	text-decoration: none;
-	transition: all 0.2s ease;
+	transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+:focus-visible {
+	outline: 2px solid var(--accent);
+	outline-offset: 3px;
 }
 
 .container {
@@ -62,21 +97,28 @@ a {
 	padding: 0 1.5rem;
 }
 
+/* Sections size to their content; the hero alone fills the first screen. */
 .container > section {
-	min-height: 100vh;
 	display: flex;
 	flex-direction: column;
-	justify-content: center;
-	padding: 5rem 0 4rem 0;
+	padding: 3.5rem 0;
 	scroll-margin-top: 5rem;
+}
+
+.container > section:first-child {
+	min-height: 100vh;
+	min-height: 100svh;
+	justify-content: center;
+	padding-top: 6rem;
 }
 
 @media (min-width: 768px) {
 	.container {
 		padding: 0 2rem;
 	}
+
 	.container > section {
-		padding: 7rem 0 6rem 0;
+		padding: 4.5rem 0;
 		scroll-margin-top: 6rem;
 	}
 }
@@ -88,9 +130,9 @@ a {
 	left: 0.75rem;
 	z-index: 2000;
 	padding: 0.6rem 1rem;
-	border-radius: 8px;
-	background-color: var(--text-primary);
-	color: var(--bg-primary);
+	border-radius: var(--radius);
+	background-color: var(--accent);
+	color: var(--on-accent);
 	font-weight: 600;
 	transform: translateY(-200%);
 }
@@ -114,11 +156,148 @@ a {
 	}
 }
 
+/* Section heading: diamond marker, display serif, thematic kicker below. */
 .section-title {
-	font-size: 1rem;
-	font-weight: 600;
-	margin-bottom: 1.5rem;
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	font-family: var(--font-display);
+	font-size: 1.5rem;
+	font-weight: 700;
+	letter-spacing: 0.06em;
 	color: var(--text-primary);
+	line-height: 1.2;
+}
+
+.section-title::before {
+	content: '';
+	flex-shrink: 0;
+	width: 0.55rem;
+	height: 0.55rem;
+	border: 2px solid var(--accent);
+	transform: rotate(45deg);
+}
+
+.section-title::after {
+	content: '';
+	flex: 1;
+	height: 1px;
+	background-color: var(--border-light);
+}
+
+.section-kicker {
+	margin: 0.35rem 0 2rem 1.3rem;
+	font-size: 0.8rem;
+	font-weight: 600;
+	letter-spacing: 0.14em;
 	text-transform: uppercase;
-	letter-spacing: 0.05em;
+	color: var(--gold);
+}
+
+@media (min-width: 768px) {
+	.section-title {
+		font-size: 1.75rem;
+	}
+}
+
+/*
+ * Framed panel: thin border with accent corner brackets, like a journal page.
+ * Corners use two pseudo-elements; children stay unaffected.
+ */
+.panel {
+	position: relative;
+	background-color: var(--bg-secondary);
+	border: 1px solid var(--border-light);
+	border-radius: var(--radius);
+}
+
+.panel::before,
+.panel::after {
+	content: '';
+	position: absolute;
+	width: 14px;
+	height: 14px;
+	border-color: var(--accent);
+	border-style: solid;
+	pointer-events: none;
+	z-index: 3;
+	transition: width 0.25s ease, height 0.25s ease;
+}
+
+.panel::before {
+	top: -1px;
+	left: -1px;
+	border-width: 2px 0 0 2px;
+	border-top-left-radius: var(--radius);
+}
+
+.panel::after {
+	bottom: -1px;
+	right: -1px;
+	border-width: 0 2px 2px 0;
+	border-bottom-right-radius: var(--radius);
+}
+
+.panel:hover::before,
+.panel:hover::after,
+.panel:focus-within::before,
+.panel:focus-within::after {
+	width: 28px;
+	height: 28px;
+}
+
+/* Technology tag, shared by experience and project cards. */
+.stack-tag {
+	font-size: 0.72rem;
+	font-weight: 600;
+	letter-spacing: 0.02em;
+	color: var(--text-secondary);
+	padding: 0.25rem 0.6rem;
+	border-radius: var(--radius);
+	background-color: var(--bg-tertiary);
+	border: 1px solid var(--border-light);
+	cursor: default;
+	transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.stack-tag:hover {
+	color: var(--accent);
+	border-color: var(--accent);
+}
+
+/* Buttons: solid accent for the main action, outlined for secondary ones. */
+.btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	padding: 0.6rem 1.25rem;
+	border-radius: var(--radius);
+	border: 1px solid var(--accent);
+	font-size: 0.9rem;
+	font-weight: 600;
+	letter-spacing: 0.02em;
+	cursor: pointer;
+	transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.btn-primary {
+	background-color: var(--accent);
+	color: var(--on-accent);
+}
+
+.btn-primary:hover {
+	transform: translateY(-1px);
+	background-color: var(--text-primary);
+	border-color: var(--text-primary);
+}
+
+.btn-secondary {
+	background-color: transparent;
+	color: var(--accent);
+}
+
+.btn-secondary:hover {
+	transform: translateY(-1px);
+	background-color: var(--accent-soft);
 }

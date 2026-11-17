@@ -31,7 +31,7 @@ El proyecto usa `pnpm` como gestor de dependencias. Todos los comandos se ejecut
 ```text
 /
 ├── public/
-│   ├── cv/              # CV descargable (david-garcia-cv.pdf).
+│   ├── cv/              # CV descargable (david-garcia-cv.pdf, david-garcia-cv-en.pdf).
 │   └── og/              # Imágenes de vista previa generadas con `pnpm og`.
 ├── scripts/             # Script que genera las imágenes de vista previa.
 ├── src/
@@ -52,7 +52,7 @@ El proyecto usa `pnpm` como gestor de dependencias. Todos los comandos se ejecut
 
 - **Añadir un proyecto:** crea un archivo en `src/content/projects/` siguiendo el formato de los existentes (título y descripción en ambos idiomas, stack, capturas y enlaces opcionales `repo`, `demo` y `app`). Las capturas van en `src/assets/captures/`. El campo `order` define la posición, y en la portada se muestran los 4 primeros.
 - **Añadir un empleo:** crea un archivo en `src/content/experience/` con fechas en formato `AAAA-MM`. Si omites `end`, se muestra como empleo actual. Los años de experiencia del perfil se calculan a partir de estos archivos.
-- **Actualizar el CV:** reemplaza `public/cv/david-garcia-cv.pdf`.
+- **Actualizar el CV:** reemplaza `public/cv/david-garcia-cv.pdf` (español) o `public/cv/david-garcia-cv-en.pdf` (inglés).
 - **Cambiar el rol o la foto:** después ejecuta `pnpm og` para regenerar las imágenes de vista previa.
 
 Si falta un campo obligatorio o una traducción, `pnpm build` falla indicando qué archivo corregir.

@@ -1,3 +1,5 @@
+import type { Lang } from '../i18n/ui';
+
 export const socialLinks = [
   {
     name: 'GitHub',
@@ -16,5 +18,8 @@ export const socialLinks = [
   }
 ];
 
-/** CV served from public/cv/. Replace the PDF there to update it. */
-export const cvUrl = '/cv/david-garcia-cv.pdf';
+/** CV per language, served from public/cv/. Replace the PDFs there to update them. */
+export const cv: Record<Lang, { url: string; fileName: string }> = {
+  es: { url: '/cv/david-garcia-cv.pdf', fileName: 'David-Garcia-CV.pdf' },
+  en: { url: '/cv/david-garcia-cv-en.pdf', fileName: 'David-Garcia-CV-EN.pdf' },
+};

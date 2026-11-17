@@ -31,7 +31,7 @@ The project uses `pnpm` as its package manager. Run all commands from the projec
 ```text
 /
 ├── public/
-│   ├── cv/              # Downloadable CV (david-garcia-cv.pdf).
+│   ├── cv/              # Downloadable CV (david-garcia-cv.pdf, david-garcia-cv-en.pdf).
 │   └── og/              # Social preview images generated with `pnpm og`.
 ├── scripts/             # Script that generates the social preview images.
 ├── src/
@@ -52,7 +52,7 @@ The project uses `pnpm` as its package manager. Run all commands from the projec
 
 - **Add a project:** create a file in `src/content/projects/` following the existing ones (title and description in both languages, stack, screenshots and optional `repo`, `demo` and `app` links). Screenshots go in `src/assets/captures/`. The `order` field sets the position; the home page shows the first 4.
 - **Add a job:** create a file in `src/content/experience/` with dates as `YYYY-MM`. Omit `end` for a current position. The years of experience in the profile are computed from these files.
-- **Update the CV:** replace `public/cv/david-garcia-cv.pdf`.
+- **Update the CV:** replace `public/cv/david-garcia-cv.pdf` (Spanish) or `public/cv/david-garcia-cv-en.pdf` (English).
 - **Change the role or photo:** then run `pnpm og` to regenerate the social preview images.
 
 If a required field or a translation is missing, `pnpm build` fails and names the file to fix.

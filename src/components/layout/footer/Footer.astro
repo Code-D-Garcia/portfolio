@@ -1,8 +1,9 @@
 ---
-import { cvUrl, socialLinks } from '../../../data/social';
+import { cv, socialLinks } from '../../../data/social';
 import { toLang, useTranslations } from '../../../i18n/ui';
 
-const t = useTranslations(toLang(Astro.currentLocale));
+const lang = toLang(Astro.currentLocale);
+const t = useTranslations(lang);
 const year = new Date().getFullYear();
 ---
 
@@ -25,7 +26,7 @@ const year = new Date().getFullYear();
 				);
 			})}
 			<li>
-				<a href={cvUrl} download="David-Garcia-CV.pdf" type="application/pdf">{t('cv.download')}</a>
+				<a href={cv[lang].url} download={cv[lang].fileName} type="application/pdf">{t('cv.download')}</a>
 			</li>
 		</ul>
 	</div>

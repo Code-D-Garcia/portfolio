@@ -5,6 +5,7 @@
  */
 export const projectFilters = [
 	'Spring Boot',
+	'Flutter',
 	'Node.js',
 	'Express',
 	'JavaScript',

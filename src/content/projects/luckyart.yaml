@@ -1,0 +1,10 @@
+order: 1
+title:
+  es: "Lucky Art Tattoo - Gestión de Estudio"
+  en: "Lucky Art Tattoo - Studio Management"
+description:
+  es: "App Android 100 % offline para la gestión integral de un estudio de tatuajes: clientes, trabajos y pagos, agenda de citas, consentimiento informado con firma, inventario, costos y rentabilidad, finanzas, reportes en PDF y respaldos cifrados, con acceso protegido por PIN o huella."
+  en: "Fully offline Android app for end-to-end tattoo studio management: clients, jobs and payments, appointment scheduling, signed informed consent, inventory, costs and profitability, finances, PDF reports and encrypted backups, secured with PIN or fingerprint."
+stack: ["Flutter", "Dart", "Riverpod", "Drift", "SQLite", "go_router"]
+images:
+  - ../../assets/captures/luckyart/luckyart_resumen.webp
